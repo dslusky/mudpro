@@ -1,0 +1,30 @@
+
+ASAP:
+
++ reloading character data file clears stored name, re-issue stat command?
++ need a better shortest path algorithm... the current model works great in
+  some cases, poorly in others.
++ support finding/removing traps
++ support disease & held status ailments (parse patterns/actions needed)
+- disable cursor while under mapped windows
+- implement income rate stat
+- support scripting "non-hostle" monsters correctly
+- update followers when they disconnect
+
+SOON:
+
+- party support via DBUS w/ megamud style fallback system
+- allow using specific strategies based on players present
+- better communications handling (internal window or messenger plugin?)
++ implement full color scrollback using curses pads
+- revamp monster data format and add more parameters such as elemental
+  orientation and item dropping flag to trigger item checking
+- support offensive spells such as vamp/dtch, possibly vuln
+
+SOMEDAY:
+
+- GUI tool to handle profile editing/management and advanced map editing
+  functions.
+- user definable UI colors
+- user definable key bindings, for now there is a temporary handler in
+  place to allow movement via the numeric keypad

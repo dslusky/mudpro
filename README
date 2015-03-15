@@ -1,0 +1,278 @@
+
+  MudPRO: An advanced client for the online game MajorMUD
+  Copyright (C) 2002, 2003, 2004  David Slusky
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+
+ CREATING A NEW PROFILE
+========================
+
+Once you have unpacked the archive, you will need to setup a profile for
+your character to use. To do this, first make a copy of the default profile:
+
+  cp -a profile/default profile/khamsin
+
+Then edit the character.conf file to the desired settings. Be sure that the
+profile path is set correctly. If you are running the program from the
+directory where you extracted it, then the profile path for khamsin would
+be "profile/khamsin". Don't forget, *nix is case sensitive!
+
+
+ RUNNING THE APPLICATION
+=========================
+
+When launching MudPRO you must specify the profile to use, such as:
+
+  ./mudpro -p profile/khamsin/character.conf
+
+The preceeding dot-slash indicates that the program resides in the current
+directory. Many distros do not normally include the current directory within
+a users command search path (for security reasons). If you receive the message
+"command not found", use the dot-slash or change your PATH environment variable.
+
+
+ SOME THINGS YOU NEED TO KNOW
+==============================
+
+* CONFIGURING THE CLIENT DATA
+
+To make the most of MudPRO, you will need to edit the various data files in
+your character profile using a text editor. Each of these files contains a
+brief comment section explaining how to configure it. Not all of the options
+avilable are covered however. For now, let me know if there is something not
+listed you'd like to customize. You can also see more of the options available
+by viewing the SAMPLE profile.
+
+Most of the files use a format in which leading whitespace is significant,
+similar to the Python programming language. Individual records are denoted
+by a declaration placed at the beginning of a new line with no whitespace
+before it. Optional parameters are then placed on subsequent lines and must
+be indented using (any number of) spaces or tabs. One or more blank lines
+must come between declarations to separate them. Lines beginning with a '#'
+are considered comments and will be ignored.
+
+#
+# Here's an example of what two definitions might look like
+# in the items.db control list:
+#
+
+Item = "darkwood ring"
+  SetFlag = AutoDrop
+
+Item = "oaken staff"
+  SetFlag = AutoGet
+  Limit   = 10
+
+TIP: You can make changes to any of the data files while the program is
+already running. Whenever you do, the file will automatically be reloaded
+for you. That is, unless you have disabled conf polling :)
+
+
+* UPDATING TO A NEWER VERSION
+
+When updating to a newer version, be sure to close down any sessions that
+are active. Then unpack the active to the same location and overwrite the
+old files. Keep in mind that this only affects the default profile. If you
+want to update your character(s), you can use the update-profile script:
+
+  ./update-profile profile/khamsin
+
+NOTE: using the update-profile script will overwrite any changes you've made
+to the monster.db and parse data files. Use it with caution!
+
+
+ SOME ISSUES YOU MIGHT ENCOUNTER
+=================================
+
+* ANSI EMULATION PROBLEMS
+
+If certain elements inside the terminal area or in the UI look incorrect, it's
+because the font you're using doesn't contain the IBM extended character set.
+Unfortunately, this will probably be the case as most fonts don't. If you are
+unable to locate a suitable font (I will try to help), there are a couple of
+workarounds. First, try launching the program like so:
+
+  TERM=linux ./mudpro -p profile/khamsin/character.conf
+
+This might at least correct the line drawing characters used in the UI.
+Failing that, you could enable the ASCII-only line style by launching the
+program like so:
+
+  ./mudpro -p profile/khamsin/character.conf --line-style 3
+
+Neither of these workarounds will completely solve the problem however.
+
+
+* TERMINAL EMULATOR ISSUES
+
+Many terminal emulators on Linux use a rather bright and unappealing color
+palette by default. This could make things such as the menu items difficult to
+see properly. Unfortunately, there is nothing I can do to resolve the problem
+from within my program. You will need to adjust the colors using your console.
+
+If you are unable to access the drop-down menus (such as the ALT-A automap
+menu), try using ESC-A instead. If this works, you will need to reconfigure
+how your terminal handles the meta (ALT) key. Xterm in particular seems to
+exhibit this problem, I would recommend using something better.
+
+
+* HP/MA TRACKING IS INCORRECT
+
+At the present time, MudPRO only understands the default status prompt. If
+you are using a custom prompt HP/MA updates will not be read corretly. Adding
+support for custom prompts is somthing I would like to add in the future, but
+for now please use the default one (eg: set statline full)
+
+
+* UNHANDLED MESSAGES
+
+If you are seeing unusual or undesired behavior, the most likely cause is an
+unhandled game message. Take a look at the messages you have received in the
+past few rounds. See anything that would affect the situation? Check to see
+if those messages are handled correctly (or at all!) in the parse data files.
+
+When you do find a message that needs to be handled differently, be sure to
+let me know about it. That way the changes can be included in the future.
+
+Additionally, you could create a Report Log to see if that helps shed some
+light on any problems you might be having. To do this, press ALT-H (for the
+help menu) followed by R.
+
+
+* RESIZING CRASHES
+
+If you resize your terminal window too small (and by that I mean really small!)
+it could hang the application or lead to a crash. I am working to resolving this
+issue.
+
+
+ AUTOMAPPING
+=============
+
+Congratulations on making it this far ;) While I've tried to make using the
+automapper as easy and intuitive as possible, there are still some gotchas.
+If you need to make any additions to the db files as discussed below, be sure
+to pass along your changes so they can be included with future releases.
+
+
+* ADJUSTING COORDINATES
+
+Sometimes it is necessary to manually adjust the XYZ coordinates for a given
+location. Hit ALT-A (for the automapper menu) and then C to begin making an
+adjustment. In the Mapview OSD title area you will see a prompt asking you to
+select an axis.
+
+To select the X axis, press X. Use the + and - keys to make adjustments.
+You can select another axis at any time by pressing X, Y, or Z. When you are
+finished, press ALT-A and C again to complete the adjustment.
+
+One example where you will need to make adjustments is the Grand Stair. It
+is necessary to lower the Z axis as you descend, otherwise the rooms will
+overlap incorrectly.
+
+
+* CUSTOM SECRET EXITS
+
+Most secret exits are easily identified because the exit is explicitly named
+when it's discovered (eg: You found an exit east!). Many secrets on the other
+hand use a custom message without any indication as to what direction the exit
+was in. Worse yet, some of these messages are reused in different places!
+
+Because of this situation, the automapper needs a little help in learning
+which exit has been uncovered. The secrets.db file in the parse subdirectory
+provides the needed information. You should take a moment to look it over,
+don't worry it's nothing complicated.
+
+If you encounter a custom secret while automapping, take a look at the
+Mapview OSD. If you do not see the exit displayed there, you will _NEED_ to
+add an entry for it. Without this information the automapper cannot join the
+locations correctly. Once you have added an appropriate entry, reactivate
+the secret exit as before and it should then be recognized.
+
+
+* SECRET PATHS
+
+Just like custom secrets, the secret paths that transport you places such
+as "go hole" leave out some information the automapper really needs. There
+are two different scenarios you will need to deal with, but more importantly
+you must notify the automapper when a special movement has taken place.
+
+In the movement.db file there is a group of messages along these lines:
+
+"You push through the dense foliage, and walk onto a small path."
+"You clamber into the burnt stump."
+"You climb into the pitch-dark hole."
+    Automap:        SpecialMovement
+
+As you can see, each of these messages invokes the Automap:SpecialMovement
+action. If you become lost after following a path, then you will need to
+make sure the corresponding message has been added to that group properly.
+
+Now, as I mentioned, there are two kinds of secret path scenarios. The first
+kind also has a secret path leading in the opposite direction. In the Darkwood
+Forest near the Blue Tower there are a couple of these. You need to use
+"go path" in both directions. In this scenario, your work is done. There is
+nothing else you need to do once the messages are handled properly.
+
+The second kind is where you need to use a secret path going in one direction,
+but a traditional movement in the opposite direction. In these situations, you
+will need to manually adjust the XYZ coordinates to join the locations properly.
+It is imperitive that you understand when to make this adjustment:
+
+  Lets say you are moving through an east-west exit, left to right. The secret
+  path is on the left side and the normal exit is on the right:
+
+  [ROOM 1] need to go "go path" ->   <- need to go west [ROOM 2]
+
+  Here is the correct procedure:
+
+  1) Type "go path" taking you east into ROOM 2
+  2) Press ALT-A followed by C to adjust coordinates (via the Mapview OSD)
+  3) Press X to select the X axis
+  4) Press + to increase the X axis by one since "go path" moved you east
+  5) Press ALT-A followed by C again to complete the adjustment
+  6) Move west *now* so that the rooms are joined (don't neglect this!)
+
+  Now lets say you had to approach from ROOM 2 instead, moving right to
+  left. The procedure is slightly different:
+
+  1) Move west taking you into ROOM 1 (do not adjust anything yet!)
+  2) Type "go path" taking you back into ROOM 2
+  3) Press ALT-A followed by C to adjust coordinates (via the Mapview OSD)
+  4) Press X to select the X axis
+  5) Press + to increase the X axis by one since "go path" moved you east
+  6) Press ALT-A followed by C again to complete the adjustment
+
+As you can see, you must make the adjustment immediately after taking the
+secret path. The side you approach from affects the procedure needed as
+well. Keep in mind that when moving diagonally you have to set both the X
+and Y axis before completing the adjustment.
+
+
+* SYNC AUTOMAP ROOM FLAG
+
+While the purpose of most room flags is obvious enough, you might be wondering
+exactly what the Sync Automap flag is good for. It is simply a way to reorient
+the automapper. It's like a big sign that says: "<-- You are here." :)
+
+While it might seem logical to use this flag liberally, you could end up
+doing more harm then good. You should only use it in truly unique locations
+such as "Town Square", "Slum Crossroads", "Slum Square", etc...
+
+Really though, don't worry too much about it. The automapper is very good
+at reorienting itself without any help, even in large and ambiguous areas.
+I would take the flag out, but there are some situations where it's very
+useful. The halls of the dead for example.

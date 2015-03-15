@@ -1,0 +1,106 @@
+# COMBAT.DB
+#
+# This file contains the combat parse patterns and corresponding actions.
+# Many times, you will want to execute the same set of actions for different
+# patterns. For this reason, it is possible to group patterns together to
+# save space and (more importantly) effort :)
+#
+# TIP: while several tags have been defined to help simplify creating patterns,
+# the underlying parsing system uses the powerful PCRE regexp engine. You can
+# take advantage of this fact and use inline regexps anywhere within a pattern
+
+# PLAYER ATTACKS ###########################################################
+
+"A horde of shrieking spirits ravages your foe for {#} damage!"
+"Dancing blades slice the foe for {#} damage!"
+"The fireball explodes, causing {#} damage!"
+    SetFlag:        Sneaking   = FALSE
+    RequireState:   Engaged
+      DamageDelt:   Room       = {#}
+      Stats:        MagicalHit = {#}
+      RoundSync
+
+"A withering blast of dragonfire sears {monster} for {#} damage!"
+"You fire {*} at {monster} for {#} damage!"
+"Your {*} strikes {monster} for {#} damage!"
+    SetFlag:        Sneaking   = FALSE
+    RequireState:   Engaged
+      DamageDelt:   Single     = {#}
+      Stats:        MagicalHit = {#}
+      RoundSync
+
+"You {hit} {monster} for {#} damage!"
+    SetFlag:        Sneaking  = FALSE
+    RequireState:   Engaged
+      DamageDelt:   Single    = {#}
+      Stats:        NormalHit = {#}
+      RoundSync
+
+"You critically {hit} {monster} for {#} damage!"
+    SetFlag:        Sneaking    = FALSE
+    RequireState:   Engaged
+      DamageDelt:   Single      = {#}
+      Stats:        CriticalHit = {#}
+      RoundSync
+
+"You surprise {hit} {monster} for {#} damage!"
+    SetFlag:        Sneaking    = FALSE
+    RequireState:   Engaged
+      DamageDelt:   Single      = {#}
+      Stats:        BackstabHit = {#}
+      RoundSync
+
+"You {miss} {monster}!"
+"You attempt to cast {*}, but fail."
+    SetFlag:        Sneaking  = FALSE
+    RequireState:   Engaged
+      Stats:        Missed
+      RoundSync
+
+"{player} moves to attack {monster}."
+    Target:         AddUnique    = {monster}
+    Require:        Leader       = {player}
+    RequireOption:  FollowAttack = TRUE
+    Target:         Engage       = {monster}
+
+
+# MONSTERS ATTACKS #########################################################
+
+"The {monster} {hits} you for {#} damage!"
+"The {monster} {hits} you with its {*} for {#} damage!"
+"The {monster} all-out {hits} you for {#} damage!"
+"The {monster} fires {*} at you for {#} damage!"
+"The {monster} casts {*} on you for {#} damage!"
+"The {monster} {hits} you with {*} for {#} damage!"
+"The {monster} touches you with a ghostly hand for {#} damage!"
+"The {monster} draws the breath from your body for {#} damage!"
+"The {monster} sprays the area with thorns for {#} damage!"
+"The {monster} breathes its ice breath on you for {#} damage!"
+"The {monster} {misses} you, but your armour deflects the blow!"
+"The {monster} {misses} you, but you dodge!"
+"The {monster} {misses} you with their {*}!"
+"The {monster} {misses} you with its {*}"
+"The {monster} {misses} you, but you dodge out of the way!"
+"The {monster} {misses} you!"
+"{monster} draws the breath from your body for {#} damage!"
+"{monster} fires {*} at you for {#} damage!"
+    SetFlag:        Sneaking  = FALSE
+    Target:         AddUnique = {monster}
+    ResetState:     Resting
+    ResetState:     Meditating
+    RoundSync
+
+"{monster} {enters} in from the {*}."
+"{monster} {enters} into the room from {*}."
+"{monster} {enters} into the room."
+"{monster} {enters} in the room from {*}."
+"{monster} {enters} right beside you!"
+    Target:         AddAlways = {monster}
+
+"The {monster} just left to the {direction}."
+"{monster} just left to the {direction}."
+    Target:         Remove = {monster}
+    Navigation:     Follow = {direction}
+
+"{monster} moves to protect {*}."
+    Target:         Override = {monster}

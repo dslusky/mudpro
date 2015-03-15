@@ -1,0 +1,34 @@
+# STRATEGY.DB
+#
+# This file contains the combat strategy control list. Basically, for
+# each monster you face, one or more of these strategies will be used
+# to control your actions in combat. The strategies used depends on the
+# conditions present and the thresholds you have set for them.
+#
+# The selection process is very simple. It begins at the top of the list
+# and works its way down. The first item that is within thresholds is
+# executed and remains in effect until either the monster dies, or the
+# strategy is no longer within the thresholds set for it. When this
+# happens the selection process begins again and the next valid strategy
+# in the list is activated. If for some reason none of the strategies
+# are valid, MudPRO will always default to a normal WeaponAttack.
+#
+# Each strategy has several thresholds that can be configured. If any
+# of them are omitted then a default value will be used. Please see the
+# SAMPLE profile for a good example set of strategies.
+#
+# Available strategies:
+#
+# Backstab     = Engage with a backstab when successfully sneaking
+# WeaponAttack = Your basic weapon attack (bashing optional)
+# SpellAttack  = Use a combat spell (including room spells)
+# Break        = Break off combat -- useful for power leveling
+# Punch        = Mystic punch attack
+# Jumpkick     = Mystic jumpkick attack
+#
+
+## TIP: if you set the Weapon parameter for a particular strategy, then that
+## weapon will be used for its duration.
+
+WeaponAttack
+  Bash = FALSE

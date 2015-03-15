@@ -1,0 +1,58 @@
+# STATE.DB
+#
+# This file contains character state parse patterns and corresponding actions.
+# Many times, you will want to execute the same set of actions for different
+# patterns. For this reason, it is possible to group patterns together to
+# save space and (more importantly) effort :)
+#
+# TIP: while several tags have been defined to help simplify creating patterns,
+# the underlying parsing system uses the powerful PCRE regexp engine. You can
+# take advantage of this fact and use inline regexps anywhere within a pattern.
+
+"Meditation will not help at this time."
+"You awake from deep meditation feeling stronger!"
+"You are too sick to meditate!"
+    SetState:       None
+    CommandDel:     Meditating
+
+"You are now meditating."
+    SetState:       Meditating
+    CommandDel:     Meditating
+    Target:         Reset
+    Combat:         Reset
+
+"You are now resting."
+    SetState:       Resting
+    CommandDel:     Resting
+    Target:         Reset
+    Combat:         Reset
+
+"You will exit after a period of silent meditation."
+    SetFlag:        Ready = FALSE
+    SetState:       None
+    CommandDel:     Exiting
+    Target:         Reset
+    Combat:         Reset
+
+"{*}Your meditation has been interrupted - you may not exit now!"
+    SetFlag:        Ready = TRUE
+
+"Attempting to sneak..."
+	SetFlag:		Sneaking = TRUE
+    CommandDel:     Sneaking
+
+"Attempting to sneak...You don't think you're sneaking."
+	SetFlag:		Sneaking = FALSE
+    CommandDel:     Sneaking
+
+"You may not sneak right now!"
+    SetFlag:        Sneaking = FALSE
+    SetFlag:        NoSneak   = TRUE
+    CommandDel:     Sneaking
+
+"Sneaking..."
+    SetFlag:        Sneaking  = TRUE
+
+"You make a sound as you enter the room!"
+"You are no longer sneaking."
+    SetFlag:        Sneaking  = FALSE

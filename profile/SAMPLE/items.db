@@ -1,0 +1,56 @@
+# ITEM.DB
+#
+
+## CASH #############################################################
+
+Item = "runic coin"
+  SetFlag = Currency
+  SetFlag = AutoGet
+  Value   = 1000000
+
+Item = "platinum piece"
+  SetFlag = Currency
+  SetFlag = AutoGet
+  Value   = 10000
+
+Item = "gold crown"
+  SetFlag = Currency
+  SetFlag = Stash
+  SetFlag = AutoGet
+  Limit   = 1000
+  Value   = 100
+
+Item = "silver noble"
+  SetFlag = Currency
+  SetFlag = Stash
+  SetFlag = AutoGet
+  Limit   = 1000
+  Value   = 10
+
+Item = "copper farthing"
+  SetFlag = Currency
+  SetFlag = Stash
+  SetFlag = AutoGet
+  Limit   = 1000
+  Value   = 1
+
+## ITEMS ############################################################
+
+Item = "torch"
+  SetFlag = Usable
+  SetFlag = Light
+  SetFlag = AutoGet
+  Limit   = 3
+
+Item = "lantern"
+  SetFlag = Usable
+  SetFlag = Light
+  SetFlag = AutoGet
+  Limit   = 3
+
+Item = "black star key"
+  SetFlag = AutoGet
+  Limit   = 3
+
+## EQUIPMENT ########################################################
+

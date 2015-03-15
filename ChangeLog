@@ -1,0 +1,117 @@
+Release 0.91r (?)
+
+ - Added "Smash" as a WeaponAttack modifier (overrides Bash).
+ - Visiting multiple locations to open an exit is now possible.
+ - Lots of misc party code fixes and additions
+ - Alternate telnet port number can now be specified.
+ - The character profile command-line option has been changed from -p to -f.
+
+Release 0.91q (05-02-2004)
+
+ - Added PartyWait and ParInterval character options.
+ - Now responds to @wait as leader
+ - Internal tracking of followers implemented
+ - Some autoroam double-back corrections
+ - Added 'Reserve' item option, this allows you to define an amount of an item
+   to hold in reserve before stashing. Default is 0.
+ - Automap position no longer reset on cleanup events. It's pretty safe to
+   assume you will appear in the same location in this context. So now there
+   is little worry that you will accidently wander someplace you shouldn't.
+
+Release 0.91p (03-12-2004)
+
+ - Added @stop/@rego remote commands.
+ - Added set of @auto-toggle remotes to control player toggles
+ - Implemented system to request assistance from party members.
+ - Added "Prefix" option to use when talk is set to slow.
+ - Added another ascii line style (#4).
+
+Release 0.91o (03-10-2004)
+
+ - Added the ability to capture the current session to file. You can enable it
+   through the toggle menu or by using the -r command-line option.
+ - Combat strategy is now recalculated as necessary when multiple monsters
+   enter the room at once.
+
+Release 0.91n (03-07-2004)
+
+ - Corrected combat regression so that you will now break properly after
+   using room spells again.
+ - Added ModHealth and ModStats item flags to signal changes in player
+   attributes when (dis)arming items. Setting ModHealth for example will
+   cause MudPRO to recheck your health.
+ - Fixed potential problem when sys goto is used while running.
+
+Release 0.91m (03-04-2004)
+
+ - Rooms with long names are now shortened in guidebook.
+ - Default automap.db now included, thanks Akc99!
+ - Fixed problem parsing "You notice {player} sneak in from the {direction}."
+ - EXIT_FLAG_ROOMCLEAR implementation should now be complete.
+
+Release 0.91l (02-25-2004)
+
+ - Corrected menubar problem introduced in the previous version.
+
+Release 0.91k (02-25-2004)
+
+ - Added EXIT_FLAG_ROOMCLEAR exit flag to force clearing the room before
+   crossing a particular exit (overrides disabled auto-attack).
+ - Improved target override implementation.
+ - Numerous code fixes to facilitate Win32 port (Thanks Locke).
+ - Added support for "Two handed" weapons in inventory.
+
+Release 0.91j (02-23-2004)
+
+ - Made transition to glib 2.x from 1.2.x.
+ - Now using glib for directory reading, instead of opendir/readdir.
+
+Release 0.91i (02-23-2004)
+
+ - Temporarily removed code allowing uppercase input to access menus,
+   it caused conflicts in some cases.
+
+Release 0.91h (02-23-2004)
+
+ - Switched to using g_get_current_time() instead of gettimeofday()
+ - Added FollowAttack option to attack the same enemies as leader
+ - Added MonsterCheck option to force checking room before engaging
+ - Drop-down menus now accessble while capslock enabled
+ - Warn user when attempting to "use {key}" that isn't in inventory
+
+Release 0.91g (02-20-2004)
+
+ - Corrected pattern that extracts data from "who" list.
+ - Initial party support added, including several @commands.
+ - Added parse/custom.db for storing user-defined patterns. This file will
+   not be overwritten by update-profile.
+ - Adopted new ChangeLog format that should be easier to read through.
+
+Release 0.91f (02-18-2004)
+
+ - Disabled access to autoroaming while automapping and vice-versa.
+ - Fixed character command list not being reset properly.
+
+Release 0.91e (02-17-2004)
+
+ - Fixed potential double free errors in item.c and player.c
+
+Release 0.91d (02-16-2004)
+
+ - Initial support for other players added.
+
+Release 0.91c (02-15-2004)
+
+ - Added notice in README regarding status prompts.
+ - GuideBook items are now removed when the automap database is reset.
+ - Monster target list should no longer accumulate incorrectly in certain.
+   circumstances.
+
+Release 0.91b (02-14-2004)
+
+ - Fixed potential crash when creating report log.
+ - Fixed problem when connecting by IP address.
+
+Release 0.91a (02-13-2004)
+
+ - Initial public release.

@@ -1,0 +1,46 @@
+# STRATEGY.DB
+#
+
+# Take out king crab ASAP
+
+SpellAttack = simp
+  Target    = "king crab"
+  ReqMana   = 50%
+  ReqMonHP  = 100
+
+# Room spells ...
+
+SpellAttack = spir
+  RoomSpell = TRUE
+  ReqMana   = 70%
+  ReqMonHP  = 120
+  Criteria  = Average
+  Monsters  = 4
+
+SpellAttack = fbal
+  RoomSpell = TRUE
+  ReqMana   = 60%
+  ReqMonHP  = 80
+  Criteria  = Average
+  Monsters  = 4
+
+SpellAttack = blad
+  RoomSpell = TRUE
+  ReqMana   = 50%
+  ReqMonHP  = 40
+  Criteria  = Average
+  Monsters  = 4
+
+# Regular attack spells ...
+
+SpellAttack = dfir
+  ReqMana   = 16
+  ReqMonHP  = 80
+
+SpellAttack = mete
+  ReqMana   = 4
+
+# No mana left, lets bash some heads ;)
+
+WeaponAttack
+  Bash      = True

@@ -1,0 +1,53 @@
+============================================================================
+ Stuff TODO
+
+============================================================================
+
+fix fade after exiting console in Login.app
+
+- character
+- monsters
+
+CHARACTER.DB
+
+This file contains your character ...
+
+The following options are supported:
+
+[b]AutoRoamBlind[/b] : Allow roaming while blinded. [i](Default: FALSE)[/i]
+
+[b]AutoRoamDoors[/b] : Allow roaming through doorways. [i](Default: FALSE)[/i]
+
+[b]AutoRoamSecrets[/b] : Allow roaming through secret passages. [i](Default: FALSE)[/i]
+
+[b]AutoRoamSpecial[/b] : Allow roaming through special exits such as "go path".
+[i](Default: FALSE)[/i]
+
+[b]BashDoorAttempts[/b] : Attempts at bashing door open before taking anotherapproach.
+[i](Default: 10)[/i]
+
+[b]BlindWait[/b] : Seconds to wait before moving while blinded. Waiting will reveal
+what monsters are present in the room. [i](Default: 6)[/i]
+
+[b]CleanupWait[/b] : Seconds to wait before relogging during a cleanup event.
+[i](Default: 200)[/i]
+
+[b]ConfigPoll[/b] : Enable config file polling. With this, MudPRO will automatically
+reload config files when then are modified. [i](Default: TRUE)[/i]
+
+[b]ConnectWait[/b] : Seconds to wait before relogging after connect closed.
+[i](Default: 10)[/i]
+
+[b]DataPath[/b] : Filesystem path to where the data files are located. [i](Default: None)[/i]
+
+[b]FollowAttack[/b] : Always attack the same targets as leader. [i](Default: TRUE)[/i]
+
+[b]GetCash[/b] : Pickup gold and other currency set to AutoGet. [i](Default: FALSE)[/i]
+
+[b]GetItems[/b] : Pickup normal items set to AutoGet. [i](Default: FALSE)[/i]
+
+[b]Hangup[/b] : Hangup when health falls below HPMin setting. [i](Default: FALSE)[/i]
+
+[b]Hostname[/b] : Hostname of remote server [i](Default: None)[/i]
+
+[b]HPMin[/b] : 

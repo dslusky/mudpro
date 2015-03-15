@@ -1,0 +1,45 @@
+# SPELLS.DB
+#
+# This file contains the spell control list. It is not necessary to define
+# every spell your character possesses here. Only those that you would like
+# to use currently. It is possible (and very useful) to have multiple
+# definitions for the same spell. This will give you fine grained control
+# over conditions for casting.
+#
+#  SAMPLE 1: This would cast mihe when your health falls below 90% and
+#            your mana is above 40%. It will also permit combat to be
+#            interrupted, if necessary.
+#
+#    Spell = mihe
+#      HPThreshold = <90%
+#      MAThreshold = >40%
+#      SetFlag     = IntAttack
+#      SetFlag     = Heal
+#
+#  SAMPLE 2: This defines a second set of rules for mihe. In this case, mihe
+#            would be cast when your health is not at 100%, but your mana is.
+#            It will also allow both resting and combat to be interrupted.
+#
+#    Spell = mihe
+#      HPThreshold = not 100%
+#      MAThreshold = is 100%
+#      SetFlag     = IntAttack
+#      SetFlag     = IntRest
+#      SetFlag     = Heal
+#
+#  SAMPLE 3: This shows how to manage a time-based bless spell. It would
+#            be cast whenever the spell becomes inactive and your mana is
+#            above 60%. If the ending message isn't received within the
+#            alloted time (in seconds) specified by MaxDuration, it will
+#            be marked as inactive and recast.
+#
+#    Spell = bles
+#      MAThreshold  = >60%
+#      MaxDuration  = 600
+#      MessageStart = "You cast bless on Khamsin!"
+#      MessageEnd   = "The effects of bless wear off!"
+#
+# NOTE: you can omit the % sign while defining a threshold to use literal
+# values instead of percentages. This is useful for mystics or characters
+# with low amounts of mana.
+

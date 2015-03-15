@@ -1,0 +1,11 @@
+# CUSTOM.DB
+#
+# This file contains user-defined parse patterns and corresponding actions.
+# Many times, you will want to execute the same set of actions for different
+# patterns. For this reason, it is possible to group patterns together to
+# save space and (more importantly) effort :)
+#
+# TIP: while several tags have been defined to help simplify creating patterns,
+# the underlying parsing system uses the powerful PCRE regexp engine. You can
+# take advantage of this fact and use inline regexps anywhere within a pattern.
+

@@ -1,0 +1,49 @@
+# SPELLS.DB
+#
+
+Spell = flux
+  MAThreshold  = >40%
+  MaxDuration  = 600
+  RecastTick   = 30
+  SetFlag      = IntRest
+  SetFlag      = IntMeditate
+  MessageStart = "You draw power from the mana surrounding you!"
+  MessageEnd   = "The mana flux dissipates rapidly."
+
+Spell = armr
+  MAThreshold  = >50%
+  MaxDuration  = 600
+  SetFlag      = IntAttack
+  SetFlag      = IntMeditate
+  MessageStart = "You cast magic armour on yourself. A glimmering shield surrounds you!"
+  MessageEnd   = "The effects of magic armour wear off!"
+
+Spell = mshi
+  MAThreshold  = >50%
+  MaxDuration  = 600
+  SetFlag      = IntAttack
+  SetFlag      = IntMeditate
+  MessageStart = "You cast mageshield, surrounding yourself in a shimmering field!"
+  MessageEnd   = "Your mageshield shimmers and fades."
+
+Spell = chao
+  MAThreshold  = >50%
+  MaxDuration  = 600
+  SetFlag      = IntAttack
+  MessageStart = "You draw chaotic energy from the ether!"
+  MessageEnd   = "The chaos shield fizzles out."
+
+#Spell = blur
+  MAThreshold  = >50%
+  MaxDuration  = 600
+  SetFlag      = IntAttack
+  MessageStart = "You cast blur on Khamsin!"
+  MessageEnd   = "The effects of blur wear off."
+
+#Spell = rfir
+  MAThreshold  = >50%
+  MaxDuration  = 600
+  SetFlag      = IntAttack
+  SetFlag      = IntMeditate
+  MessageStart = "You cast resist fire on Khamsin, surrounding him with a pale red glow."
+  MessageEnd   = "The effects of resist fire wear off!"

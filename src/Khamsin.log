@@ -1,0 +1,151 @@
+
+AUTOMAP MODULE
+==============
+
+  Automap Status: Disabled
+  Automap Coordinates: (X: 0) (Y: 0) (Z: -1)
+
+  Automap Location: 397797930 (Newhaven, Arena)
+
+    Last Visited .. Wed Jan  2 01:18:27 2013
+    Coordinates ... (X: 0) (Y: 0) (Z: -1)
+    Exits ......... 514
+    Flags ......... 2
+    Regen Index ... 0
+    Session ....... 1
+
+    Exit List:
+
+      [ 1] ID: 0
+           Direction: north
+           Flags: 2
+
+      [ 2] ID: 163612585 (Newhaven, Narrow Road)
+           Last Visited: Wed Jan  2 01:07:37 2013
+           Coordinates: (X: 0) (Y: 0) (Z: 0)
+           Direction: up
+           Flags: 0
+
+  Automap Lost Index ...... 0
+  Automap Session ......... 1
+  Room Database Size ...... 2
+  Movement Queue Size ..... 0
+  Current Room Name ....... Newhaven, Arena
+  Last Key Used ........... none
+  Last User Input ......... hea
+
+  Obvious Exits ........... u 
+  Obvious Secrets ......... none
+  Obvious Doors Open ...... n 
+  Obvious Doors Closed .... none
+  Obvious Doors Unlocked .. none
+
+
+AUTOROAM MODULE
+===============
+
+  AutoRoam Status: Disabled
+
+  AutoRoam While Blind .... YES
+  AutoRoam Using Doors .... NO
+  AutoRoam Secret Exits ... NO
+  AutoRoam Special Exits .. NO
+
+  AutoRoam Exits: u d 
+
+
+COMBAT MODULE
+=============
+
+  Target ....... giant rat
+  Rounds ....... 0
+  Sync Flag .... TRUE
+  Force Break .. FALSE
+
+  Monster Tracking:
+
+    Count ...... 1
+    Strongest .. 12
+    Weakest .... 12
+    Average .... 12
+
+  Damage Tracking:
+
+    To enemy .. 0
+    To room ... 0
+    Received .. 0
+
+  Current Strategy: WeaponAttack
+
+    Min Mon HP .... 0
+    Min Monsters .. 0
+    Min Mana ...... 0
+    Min Tick ...... 0
+
+    Target ........ Any
+    Weapon ........ Any
+    Spell ......... None
+    Rounds ........ 9999
+    Criteria ...... None
+    Using Bash .... FALSE
+    Using Smash ... FALSE
+    Affects Room .. FALSE
+
+
+COMMAND MODULE
+==============
+
+  Command Recalls:
+    Current .. 0
+    Total .... 200
+
+  Last 10 Commands:
+
+    [ 1] Attacking (a angry giant rat)
+    [ 2] Attacking (a nasty giant rat)
+    [ 3] Attacking (a large giant rat)
+    [ 4] Attacking (a thin giant rat)
+    [ 5] Attacking (a nasty carrion beast)
+    [ 6] Attacking (a giant rat)
+    [ 7] Attacking (a kobold thief)
+    [ 8] Attacking (a kobold thief)
+    [ 9] Targeting
+    [10] Attacking (a giant rat)
+
+
+NAVIGATION MODULE
+=================
+
+  Current Destination: None
+  Current Route: None
+
+  Anchors Pending: None
+
+  Collisions ... 2
+  Steps Ran .... 0
+  Flags ........ 0
+  Room Dark .... NO
+  NPC Present .. YES
+
+
+TIMERS MODULE
+=============
+
+  Timer               sec/usec
+  ----------------------------
+  Castwait .......... 0/1
+  Client AI ......... 0/140167
+  Connect ........... 0/-1
+  Database Update ... 0/704094
+  Duration .......... 5463/750229
+  Idle .............. 3/79733
+  MudPRO ............ 5463/750225
+  Online ............ 5460/94866
+  OSD Stats ......... 0/1
+  Player Animation .. 0/1
+  Recall ............ 0/1
+  Refresh ........... 0/152
+  Round ............. 4/19568
+  Status ............ 0/764092
+  Party Command ..... 14/435922
+

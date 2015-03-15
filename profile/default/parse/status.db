@@ -1,0 +1,39 @@
+# STATUS.DB
+#
+# This file contains character status parse patterns and corresponding actions.
+# Many times, you will want to execute the same set of actions for different
+# patterns. For this reason, it is possible to group patterns together to
+# save space and (more importantly) effort :)
+#
+# TIP: while several tags have been defined to help simplify creating patterns,
+# the underlying parsing system uses the powerful PCRE regexp engine. You can
+# take advantage of this fact and use inline regexps anywhere within a pattern.
+
+"The effects of confusion wear off!"
+"The effects of the death dog's shriek wear off!"
+    SetStatus:      Confused = FALSE
+
+"The effects of the poison wear off!"
+    SetStatus:      Poisoned = FALSE
+
+"You can see again!"
+"The unnatural darkness lifts."
+"Your vision returns to normal."
+"The effects of the mummy's breath wears off!"
+    SetStatus:      Blind = FALSE
+
+"You are confused!"
+"You feel confused!"
+    SetStatus:      Confused = TRUE
+
+"{*} casts blind on you!"
+"The large mummy breathes on you!"
+"A black curse is upon you!"
+"You are enveloped in darkness!"
+"You are blind."
+    SetStatus:      Blind = TRUE
+    Automap:        Disable
+
+"Poison burns through your veins!"
+"You feel ill."
+    SetStatus:      Poisoned = TRUE

@@ -1,0 +1,146 @@
+# MOVEMENT.DB
+#
+# This file contains the movement parse patterns and corresponding actions.
+# Many times, you will want to execute the same set of actions for different
+# patterns. For this reason, it is possible to group patterns together to
+# save space and (more importantly) effort :)
+#
+# TIP: while several tags have been defined to help simplify creating patterns,
+# the underlying parsing system uses the powerful PCRE regexp engine. You can
+# take advantage of this fact and use inline regexps anywhere within a pattern.
+
+# Recharge regen whenever movement is heard while entering a location
+"You hear movement to the {direction}."
+    Require:        Movement = {direction}
+      Automap:      AddRegen = {direction}
+
+"You pull open the manhole cover, and slip inside the hole."
+"You walk into the wide crack, and follow a path through the rock."
+"You walk through the waterfall!"
+"You squeeze through the narrow hole."
+"You move some rocks to the side."
+"You push through the dense foliage, and walk onto a small path."
+"You clamber into the burnt stump."
+"You climb into the pitch-dark hole."
+"You climb into one of the skiffs, and row to Silvermere."
+"You jump into the large fountain."
+"You wade through the salty water to the beach."
+"You wade through the salty water to the reef."
+    Automap:        SpecialMovement
+
+"Dhelvanen closes his eyes, and concentrates silently, for a moment you can't"
+"You touch the crystal and your entire body freezes for a second!"
+"You begin to examine the book and begin to feel light headed."
+"You rise through the air and pass through the barrier of water!"
+    Automap:        SpecialMovement
+    CommandSend:    Target
+
+"You do not have a room ticket."
+"You have progressed too far for this room."
+"You have progressed too far to go through this exit!"
+"You walk into a shimmering wall!"
+"There is no exit in that direction!"
+"There are no exits to the {direction}!"
+"There are no exits {direction}!"
+    SetFlag:        Looking = FALSE
+    Require:        Movement
+      Automap:      MovementDelete
+      Navigation:   Collision
+      CommandRecall
+
+"Your command had no effect."
+    CommandRecall
+    Automap:        MovementDelete
+    Navigation:     Collision
+
+"You fumble in confusion!"
+    SetFlag:        Looking   = FALSE
+    SetStatus:      Confusion = TRUE
+    CommandRecall
+    Require:        Movement
+      Automap:      MovementDelete
+
+"The {*} is (C|c)losed!"
+"There is a closed {*} in that direction!"
+    Require:        Movement
+      Automap:      MovementDelete
+      Navigation:   DoorClosed
+      Navigation:   DoorLocked
+      Navigation:   Collision
+      CommandDel:   Moving
+
+## NOTE: this block must come before Automap:MovementUpdate
+"The room is pitch black - you can't see anything"
+"The room is very dark - you can't see anything"
+    Navigation:     RoomDark = TRUE
+
+"The room is pitch black - you can't see anything"
+"The room is very dark - you can't see anything"
+"You are blind."
+    SetFlag:        Looking = FALSE
+    CommandDel:     Targeting
+    Require:        Movement
+      CommandDel:   Moving
+      Automap:      MovementUpdate
+      Navigation:   LookupExits
+
+"You successfully unlocked the {*}."
+"The {*} was not locked."
+    CommandDel:     Using
+    CommandDel:     PickingLock
+    Navigation:     DoorUnlocked
+
+"You bashed the {*} open."
+"The {*} is now open."
+"The {*} (is|was) already open."
+    SetFlag:        Sneaking = FALSE
+    SetState:       None
+    CommandDel:     Bashing
+    CommandDel:     Opening
+    Navigation:     DoorOpened
+    Navigation:     DoorUnlocked
+
+"Your attempts to bash through fail!"
+    SetFlag:        Sneaking = FALSE
+    SetState:       None
+    CommandDel:     Bashing
+
+"You see {player} bash the {*} to the {direction}."
+"The {*} to the {direction} just flew open."
+    Navigation:     DoorOpened   = {direction}
+    Navigation:     DoorUnlocked = {direction}
+
+"You see {player} close the {*} to the {direction}."
+"You see {player} attempt to bash the {*} to the {direction}."
+"The {*} to the {direction} just locked!"
+"The {*} to the {direction} just (C|c)losed."
+    Navigation:     DoorClosed = {direction}
+    Navigation:     DoorLocked = {direction}
+
+"Your skill fails you this time."
+"Syntax: PICKLOCK {direction}"
+    CommandDel:     PickingLock
+
+"The {*} is locked."
+    Navigation:     DoorClosed
+    Navigation:     DoorLocked
+    CommandDel:     Opening
+
+"You found an exit to the {direction}!"
+"You found an exit {direction}!"
+    Automap:        AddSecret = {direction}
+    Navigation:     SetSecret = {direction}
+    SetState:       None
+    CommandDel:     Searching
+
+"A concealed passage opens to the {direction}."
+"A gigantic stone door opens in the {direction} wall!"
+"After twisting the skull, an opening appears to the {direction}!"
+"After pulling the lever, an opening appears to the {direction}!"
+    Automap:        AddSecret  = {direction}
+    Navigation:     SetSecret  = {direction}
+    Navigation:     SetCommand = {direction}
+
+" -- Following your Party leader {direction} --"
+    Automap:        AddMovement = {direction}
+    Combat:         Reset

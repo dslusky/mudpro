@@ -1,0 +1,150 @@
+# CHARACTER.DB
+#
+# This file contains the character parse patterns and corresponding actions.
+# Many times, you will want to execute the same set of actions for different
+# patterns. For this reason, it is possible to group patterns together to
+# save space and (more importantly) effort :)
+#
+# TIP: while several tags have been defined to help simplify creating patterns,
+# the underlying parsing system uses the powerful PCRE regexp engine. You can
+# take advantage of this fact and use inline regexps anywhere within a pattern.
+
+"\[HP={1}\]:"
+    Character:      HPUpdate = {1}
+
+"\[HP={1}/(MA|KAI)={2}\]:"
+    Character:      HPUpdate = {1}
+    Character:      MAUpdate = {2}
+
+# Magic-users / Mystics health line
+"Health: +{1}/{2} +\[{3}%\] +(Mana|Kai): +{4}/{5} +\[{6}%\]"
+    SetFlag:        HealthRead = TRUE
+    Character:      HPNow = {1}
+    Character:      HPMax = {2}
+    Character:      MANow = {4}
+    Character:      MAMax = {5}
+    Character:      CalibrateVitals
+    VitalsOSD:      Update
+    CommandDel:     CheckHealth
+
+# Non-magic users health line
+"Health: +{1}/{2} +\[{3}%\]"
+    SetFlag:        HealthRead = TRUE
+    Character:      HPNow = {1}
+    Character:      HPMax = {2}
+    Character:      CalibrateVitals
+    VitalsOSD:      Update
+    CommandDel:     CheckHealth
+
+"Exp: {1} Level: {2} Exp needed for next level: {3} \({4}\) \[{5}%\]"
+    SetFlag:        ExpRead   = TRUE
+    Stats:          ExpTotal  = {1}
+    Character:      Level     = {2}
+    Stats:          ExpNeeded = {3}
+    CommandDel:     CheckExp
+
+"You gain {#} experience."
+    Stats:          ExpGained = {#}
+    Stats:          AddKill
+    Target:         Remove
+    SetState:       None
+    RequireOption:  MonsterCheck = TRUE
+      Target:       Reset
+      CommandSend:  Target
+
+"Name: {1} {2} +Lives/CP: +{3}/{4}{*}"
+    Player:         AddUnique = {1}
+    Character:      FirstName = {1}
+    Character:      LastName  = {2}
+    Character:      Lives     = {3}
+    VitalsOSD:      Update
+
+"Race: {1} +Exp: {2} +Perception: +{3}"
+    Character:      Race       = {1}
+    Stats:          ExpTotal   = {2}
+    Character:      Perception = {3}
+
+"Class: {1} +Level: {2} +Stealth: +{3}"
+    Character:      Class   = {1}
+    Character:      Level   = {2}
+    Character:      Stealth = {3}
+
+"Hits: +{1}/{2} +Armour Class: +{3}/{4} +Thievery: +{5}"
+    Character:      HPNow      = {1}
+    Character:      HPMax      = {2}
+    Character:      ArmorClass = {3}
+    Character:      DamageRes  = {4}
+    Character:      Thievery   = {5}
+
+# Magic users
+"Mana: +{1}/{2} +Spellcasting: {3} +Traps: +{4}"
+    Character:      MANow        = {1}
+    Character:      MAMax        = {2}
+    Character:      Spellcasting = {3}
+    Character:      Traps        = {4}
+
+# Mystics
+"Kai: +{1}/{2} +Traps: +{3}"
+    Character:      MANow = {1}
+    Character:      MAMax = {2}
+    Character:      Traps = {3}
+
+# Non-magic users
+" +Traps: +{1}"
+    Character:      Traps = {1}
+
+" +Picklocks: +{1}"
+    Character:      Picklocks = {1}
+
+"Strength: +\**{1} +Agility: +\**{2} +Tracking: +{3}"
+    Character:      Strength = {1}
+    Character:      Agility  = {2}
+    Character:      Tracking = {3}
+
+"Intellect: +\**{1} +Health: +\**{2} +Martial Arts: +{3}"
+    Character:      Intellect   = {1}
+    Character:      Health      = {2}
+    Character:      MartialArts = {3}
+
+"Willpower: +\**{1} +Charm: +\**{2} +MagicRes: +{3}"
+    Character:      Willpower = {1}
+    Character:      Charm     = {2}
+    Character:      MagicRes  = {3}
+    SetFlag:        StatsRead = TRUE
+    CommandDel:     CheckStats
+
+"The following people are in your travel party:"
+    CommandDel:     CheckingParty
+    Player:         Rollcall
+
+# Party member with mana
+"  {1} {2} +.\w+. +\[M: ?{3}%\] \[H: ?{4}%\]...- \w+"
+    Player:         Select    = {1}
+    Player:         Mana      = {3}
+    Player:         Health    = {4}
+    Player:         AddMember
+    Player:         Present
+    Player:         Deselect
+
+# Party member without mana
+"  {1} {2} +.\w+. +\[H: ?{3}%\]...- \w+"
+    Player:         Select    = {1}
+    Player:         Health    = {3}
+    Player:         AddMember
+    Player:         Present
+    Player:         Deselect
+
+
+# CHARACTER COMMANDS #######################################################
+
+"sea(rch)?"
+    SetFlag:        Searching = TRUE
+
+"Your search revealed nothing."
+    SetFlag:        Searching = FALSE
+
+"l(ook)? +{direction}"
+    SetFlag:        Looking = TRUE
+
+"Obvious exits: {*}"
+    SetFlag:        Looking = FALSE

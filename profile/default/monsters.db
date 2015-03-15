@@ -1,0 +1,430 @@
+# MONSTERS.DB
+#
+# This file contains the list of monsters in the following format:
+#   monster name, hit points, flag bitmask
+#
+# Flags Available (to use multiple flags, add the values together)
+#
+#	MONSTER_FLAG_PRIO	= 1 (Mark monster as a priority)
+#	MONSTER_FLAG_NOBS	= 2 (Do not attempt to backstab monster)
+#	MONSTER_FLAG_UNDEAD	= 4 (Mark monster as undead)
+#   MONSTER_FLAG_AVOID  = 8 (Avoid monster if possible)
+#
+# NOTE: Improving the format, and extending the stored data are both
+# on the TODO list
+
+abomination,100,0
+acid slime,25,0
+adult she-dragon,2500,0
+aged earth dragon,4500,0
+alchemist,220,0
+ancestral guardian,400,0
+ancient sand dragon,5000,0
+ancient willow,1000,0
+animated tree,145,0
+ankheg,140,0
+archer bush,85,0
+aurumvorax,500,0
+azure slime,55,0
+baby dragon,300,0
+bandit leader,100,0
+bandit,59,0
+banshee,250,0
+barrow wight,180,0
+behemoth hellhound,800,0
+behemoth,700,0
+beholder,945,0
+black asp,150,0
+black dragon serpent,200,0
+black dragon,2500,0
+black fungus tree,160,0
+black orc boss,300,0
+black orc captain,155,0
+black orc shaman,125,0
+black orc,100,0
+black pudding,250,0
+blood hawk,150,0
+bloodbear,235,0
+blue dragon serpent,225,0
+bola spider,110,0
+bone warrior,350,0
+brain eater,150,0
+brigand,115,0
+brine hag,200,0
+captain of the guard,1200,0
+carnivorous plant,115,0
+carrion beast,25,0
+carrion crawler,160,0
+cave bear,50,0
+cave lizard,115,0
+cave worm,70,0
+centipede,25,0
+champion of blood,600,0
+chest,136,0
+chimera,900,0
+cockatrice,250,0
+constrictor,350,0
+crane spirit,650,0
+crazed lunatic,110,0
+crimson mist,800,0
+crocodile,100,0
+crystalline spider,165,0
+cutpurse,110,0
+cyclops,360,0
+dae asp,150,0
+dao lord,1500,0
+dark apprentice,110,0
+dark assassin,130,0
+dark bishop,240,0
+dark cleric,86,0
+dark cultist,50,0
+dark dabbler,120,0
+dark druid,125,0
+dark goblin archer,73,0
+dark goblin warlock,110,0
+dark goblin,90,0
+dark mage,100,0
+dark monk,125,0
+dark mystic,150,0
+dark nightblade,200,0
+dark paladin,90,0
+dark phoenix,3000,0
+dark priest,75,0
+dark stalker,155,0
+dark warlock,140,0
+dark warrior,140,0
+dark wizard,190,0
+dark-elf archmage,1000,0
+dark-elf citizen,150,0
+dark-elf emissary,150,0
+dark-elf faithkeeper,200,0
+dark-elf harvester,150,0
+dark-elf high priestess,600,0
+dark-elf hunter,150,0
+dark-elf nobleman,200,0
+dark-elf queen,1200,0
+dark-elf royal guard,225,0
+dark-elf servant,150,0
+dark-elf soldier,200,0
+dark-elf warlock,160,0
+dark-elf weaponsmaster,1000,0
+death dog,100,1
+demonling,100,0
+depraved murderer,130,0
+deranged priest,800,0
+devourer,500,0
+dire wolf,122,0
+displacer beast,110,0
+dragon hatchling,256,0
+dragonfish,205,0
+dread mystic,360,0
+drider,140,0
+duergar captain,450,0
+duergar lord,1000,0
+duergar warrior,300,0
+dustdevil,200,0
+earth elemental,185,0
+efreeti,1000,0
+electric eel,200,0
+elite guard,165,0
+elite orc guard,100,0
+falcon-headed warrior,250,0
+fallen angel,1000,0
+feral kang priest,200,0
+feral kang,200,0
+filthbug,15,0
+fire bat,170,0
+fire elemental,70,0
+fire knight,500,0
+fire lizard,93,0
+fire toad,400,0
+flame elemental,220,0
+flesh golem,640,0
+flesh ripper,200,0
+forest spider,66,0
+foul creation,120,0
+frost hydra,1000,0
+frost serpent,73,0
+fungus lizard,205,0
+gargoyle,125,0
+gelatinous cube,120,0
+gemstone juggernaut,1500,0
+ghost,250,0
+ghoul,73,0
+giant ant,125,0
+giant bat,55,0
+giant crab,220,0
+giant crocodile,225,0
+giant rat,12,0
+giant rattlesnake,125,0
+giant scorpion,400,0
+giant skeleton,275,0
+giant snake,125,0
+giant spider,100,0
+giant toad,165,0
+giant two-headed troll,1200,0
+giant war dog,270,0
+giant wasp,400,0
+gibbering horror,175,0
+gibbering mage,800,0
+gigantic black ooze,9999,8
+glittering ooze,150,0
+glowing worm,185,0
+gnoll axeman,130,0
+gnoll chieftain,220,0
+gnoll scout,100,0
+gorgon,165,0
+gorilla spirit,700,0
+goru-nezar,1000,0
+grall,400,0
+greater hellhound,225,0
+greater hellion,800,0
+greater salamander,520,0
+green dragon serpent,215,0
+green slime,40,0
+grey guardian wolf,145,0
+grey spider,66,0
+grey wolf,125,0
+grizzly bear,265,0
+guard captain,180,0
+guard dog,100,0
+guardian beast,750,0
+guardian golem,120,0
+gulgulthra,1375,0
+half-ogre bodyguard,60,0
+half-ogre guard,220,0
+half-ogre warrior,120,0
+half-orc sentry,65,0
+harpy,140,0
+hellhound,85,0
+hideous abomination,750,0
+high druid,300,0
+hill centaur,130,0
+hill giant chieftan,1000,0
+hill giant shaman,470,0
+hill giant,400,0
+hobgoblin,190,0
+hordeling,275,0
+horned demon,9999,0
+huge basilisk,815,0
+huge obsidian golem,1500,0
+huge tiger beetle,90,0
+huorn,260,0
+hydra head,300,0
+hydra,93,0
+ice golem,300,1
+ice sorceress,550,0
+ice wraith,200,0
+imp,200,0
+insane mage,120,0
+insect swarm,100,0
+jackal-headed warrior,250,0
+jeweled viper,200,0
+ju-ju zombie,200,0
+killer bee,195,0
+king crab,400,0
+kobold king,250,0
+kobold thief,20,0
+kobold warrior,50,0
+kobold,30,0
+lady of the dark,800,0
+lamia,175,0
+lantern fish,250,0
+large gibbering horror,275,0
+lashworm,15,0
+lava imp,400,0
+leafling,300,0
+leo the quick,240,0
+leprechaun,175,0
+leprous outcast,60,0
+lesser efreeti,600,0
+mad wizard,80,0
+magma golem,500,0
+magma man,225,0
+mamba,2000,0
+manscorpion king,1500,0
+manscorpion shaman,600,0
+manscorpion,600,0
+manticore,180,0
+margoyle,180,0
+massive fanged spider,900,0
+massive ice dragon,2000,0
+master assassin,220,0
+master torturer,400,0
+mercenary,46,0
+mermex hunter,150,0
+mermex queen,500,0
+mermex royal guard,185,0
+mermex warrior,160,0
+mermex worker,170,0
+metallic monstrosity,1000,0
+mind flayer,185,0
+minotaur champion,200,0
+minotaur chieftain,275,0
+minotaur,155,0
+moaning spirit,148,2
+monkey spirit,500,0
+moss zombie,400,0
+mummy,100,0
+mutant spider,130,0
+mutant,95,0
+nanati bladesman,225,0
+nanati deathweaver,225,0
+nanati shadow,210,0
+nanati sorceress,180,1
+nanati,200,0
+necromancer,300,0
+nexus hunter,400,0
+night hag,1050,0
+nomadic chieftan,400,0
+nomadic huntsman,160,0
+nomadic shaman,110,0
+nomadic tribesman,130,0
+obsidian demon,150,0
+obisidan statue, 200,0
+ogre gladiator,400,0
+ogre grunt,250,0
+ogre,100,0
+ogre-mage,220,0
+orc captain,155,0
+orc fanatic,125,0
+orc lieutenant,55,0
+orc rogue,30,0
+orc sentry,46,0
+orc shaman,125,0
+orc trainee,80,0
+orc warleader,175,0
+orc warlord,800,0
+orc warrior,80,0
+owlbear,93,0
+parasite,75,0
+pharaoh rastep,1000,0
+pixie,155,0
+planar storm,500,0
+prismatic dragon,1000,0
+purple slime,30,0
+purple worm,750,0
+pyrimera,650,0
+pyro jelly,180,0
+pyrogoyle,500,0
+pyrotrice,350,0
+quaggoth jald,200,0
+quaggoth thonot,200,0
+quaggoth,180,0
+queen ant,400,0
+quickling lord,900,0
+quickling,220,0
+rakshasha rajah,1800,0
+rakshasha rukh,450,0
+rakshasha sage,300,0
+rakshasha,300,0
+red demonling,900,0
+red dragon serpent,235,0
+red slime,50,0
+roc hatchling,90,0
+roc,200,0
+rotting monstrosity,425,0
+rotworm,25,0
+sahuagin shaman,250,0
+sahuagin warrior,300,0
+sahuagin,250,0
+salamander,225,0
+sand crab,200,0
+sandworm,250,0
+saracen commander,500,0
+saracen high priest,1000,0
+saracen leader,350,0
+saracen raider,250,0
+saracen zealot,350,0
+sentry,46,0
+serpent-headed warrior,250,0
+serpentkin chieftain,185,0
+serpentkin hunter,120,0
+serpentkin shaman,120,0
+serpentkin warrior,120,0
+serpentkin witchdoctor,200,0
+shade,75,0
+shadowraith,220,0
+shambling mound,200,0
+shapeshifter,300,0
+shard creature,180,0
+silver cobra,300,0
+skeletal warrior,130,0
+skeleton,43,0
+slave lord,350,0
+slave-master,250,0
+slaver leader,250,0
+slaver,150,0
+slime beast,170,0
+slime serpent,225,0
+slimeworm,250,0
+small gibbering horror,175,0
+smuggler boss,180,0
+smuggler,70,0
+soldier ant,80,0
+spectral knight,1000,0
+spectre,200,0
+spider crab,280,0
+spiny tentacle,200,0
+spore zombie,150,0
+stone elemental,225,0
+stone giant chieftain,800,0
+stone giant shaman,580,0
+stone giant,500,0
+stone golem,140,0
+swamp leech,60,0
+swamp serpent,125,0
+swamp troll,180,0
+tasloi animal master,750,0
+tasloi chief,1500,0
+tasloi hunter,400,0
+tasloi scout,450,0
+tasloi shaman,1500,0
+tasloi villager,325,0
+tasloi warrior,700,0
+tentacled abomination,100,0
+tentacled mass,350,0
+terror beast,500,0
+test leader,225,0
+thief,20,0
+thrag,400,0
+thug,28,0
+tortured spirit,150,0
+trained spider,400,0
+troglodyte leader,180,0
+troglodyte,120,0
+troll,93,0
+tunnel horror,400,0
+twisted guard,120,0
+twisted one,190,0
+two-headed hydra,93,0
+umber hulk,170,0
+undead priest,200,0
+unholy idol,900,0
+vampire bat,235,0
+vampire rosebush,110,0
+vampiric mist,120,0
+war dog,165,0
+warlock bandit,60,0
+wererat champion,450,0
+wererat emissary,450,0
+wererat plague-crafter,500,0
+wererat shaman,375,0
+wererat,300,0
+werewolf,260,0
+whipvine,300,0
+white dragon serpent,190,0
+white jelly,325,0
+white scorpion,200,0
+wight,80,0
+wild dog,46,0
+wild spider,350,0
+winged demon,300,0
+winged horror,165,0
+wood golem,110,0
+worker ant,80,0
+wraith,220,0
+wraithlord,800,0
+yeti,380,0
+young dragon,380,0
+zombie,62,0

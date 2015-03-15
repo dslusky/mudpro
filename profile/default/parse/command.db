@@ -1,0 +1,63 @@
+# COMMAND.DB
+#
+# This file contains the command parse patterns and corresponding actions.
+# Many times, you will want to execute the same set of actions for different
+# patterns. For this reason, it is possible to group patterns together to
+# save space and (more importantly) effort :)
+#
+# TIP: while several tags have been defined to help simplify creating patterns,
+# the underlying parsing system uses the powerful PCRE regexp engine. You can
+# take advantage of this fact and use inline regexps anywhere within a pattern.
+
+"You notice nothing different to the {direction}."
+    SetState:       None
+    CommandDel:     Searching
+
+"You cast {*}."
+"You draw {*}!"
+"You invoke {*}."
+"You feel strange for a moment."
+"You attempt to cast {*}, but fail."
+"You have already cast a spell this round!"
+    ResetState:     Resting
+    ResetState:     Meditating
+    CommandDel:     Casting
+
+"Why would you want to cast a spell on that?"
+"You may not cast that spell on an item!"
+"Your spell has no effect in this room!"
+"You do not see {*} here!"
+"You don't see that anywhere!"
+"You are not carrying {*}"
+    CommandRecall
+
+"Your spell has no effect in this room!"
+	Require:		Attacking = TRUE
+	  CommandDel:	Attacking
+
+"{player} gangpaths: {*}"
+    Require:        Gangpathing = TRUE
+    Require:        Firstname   = {player}
+      CommandDel:   Gangpathing
+
+# NOTE: keep this above CommandDel:Speaking
+"You say .{*}."
+    Require:        Speaking = FALSE
+      CommandRecall
+
+"You say .{*}."
+"--- Message Directed to {player} ---"
+    CommandDel:     Speaking
+
+"--- Telepath Sent to {player} ---"
+"You have to telepath something!"
+"Cannot find user!"
+"Why are you telepathing to yourself?"
+    CommandDel:     Telepathing
+
+"You must be invited first!"
+    CommandDel:     Joining
+
+"You have moved to the {*} ranks of your group."
+    Character:      Rank = {*}
+    CommandDel:     ChangingRank

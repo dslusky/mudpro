@@ -1,0 +1,32 @@
+# MISC.DB
+#
+# This file contains miscellaneous parse patterns and corresponding actions.
+# Many times, you will want to execute the same set of actions for different
+# patterns. For this reason, it is possible to group patterns together to
+# save space and (more importantly) effort :)
+#
+# TIP: while several tags have been defined to help simplify creating patterns,
+# the underlying parsing system uses the powerful PCRE regexp engine. You can
+# take advantage of this fact and use inline regexps anywhere within a pattern.
+
+"{Realm Of Legends}"
+    RequireFlag:    Ready   = FALSE
+      SetFlag:      Ready   = TRUE
+      OSDDock:      Restack
+    RequireOption:  AutoAll = TRUE
+      SendLine:     "enter"
+
+"MUD Internal Error - Please tell your sysop"
+    Navigation:     Autoroam = FALSE
+    Navigation:     Reset
+    Automap:        Reset
+    Automap:        MovementDelete
+    CommandRecall
+
+"Sorry to interrupt, but the system will be shutting"
+"Sorry to interrupt here, but the server will be shutting"
+	PrintTerm		"CleanupEvent Initiated"
+    CleanupEvent
+
+"Your character has been saved. If you have any comments or suggestions, please"
+    Disconnect

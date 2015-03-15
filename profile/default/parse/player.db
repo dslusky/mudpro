@@ -1,0 +1,71 @@
+# PLAYER.DB
+#
+# This file contains the player parse patterns and corresponding actions.
+# Many times, you will want to execute the same set of actions for different
+# patterns. For this reason, it is possible to group patterns together to
+# save space and (more importantly) effort :)
+#
+# TIP: while several tags have been defined to help simplify creating patterns,
+# the underlying parsing system uses the powerful PCRE regexp engine. You can
+# take advantage of this fact and use inline regexps anywhere within a pattern.
+
+# Online player listings
+"........ {1} {2} +\-  {3}{*}"
+"............... {1} {2} +.......... ...................."
+    Player:         AddUnique = {1}
+    Player:         Online = {1}
+    SetFlag:        ScanRead  = TRUE
+    CommandDel:     Scanning
+
+"{player} just entered the Realm."
+    Player:         AddUnique = {player}
+    Player:         Online    = {player}
+    Require:        Follower  = {player}
+      CommandSend:  Target
+
+"{player} just left the Realm."
+"{player} just hung up!!!"
+"{player} just disconnected!!!"
+    Player:         Offline    = {player}
+    Require:        Follower   = {player}
+      Player:       NotReady   = {player}
+      Player:       NotPresent = {player}
+      Player:       NotJoined  = {player}
+
+"You are now following {player}"
+    Player:         Leader  = {player}
+    CommandDel:     Joining
+
+"You are no longer following {player}."
+    Player:         Leader = NONE
+
+"You have invited {player} to follow you."
+    Player:         FollowerAdd = {player}
+    Player:         Invited     = {player}
+    CommandDel:     Inviting
+
+"{player} started to follow you."
+    Player:         Joined  = {player}
+    Player:         Present = {player}
+    Player:         Ready   = {player}
+
+"{player} has been removed from your followers."
+    Player:         FollowerDel = {player}
+
+"{player} gossips: {*}"
+    ChatLog:        Gossip
+
+"{player} auctions: {*}"
+    ChatLog:        Auction
+
+"{player} gangpaths: {*}"
+    ParseCommand:   Gangpath = {*}
+    ChatLog:        Gangpath
+
+"{player} telepaths: {*}"
+    ParseCommand:   Telepath = {*}
+    ChatLog:        Telepath
+
+"{player} says( .to you.)? .{*}."
+    ParseCommand:   Spoken = {*}
+    ChatLog:        Spoken

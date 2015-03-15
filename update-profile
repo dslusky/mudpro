@@ -1,0 +1,53 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+	echo "Usage: update-profile <PATH TO PROFILE>"
+	exit
+fi
+
+if [ ! -d "profile/default" ]; then
+	echo "One of the following errors prevents update:"
+	echo " - You are not in the MudPRO directory"
+	echo " - The profile/default directory is not accessable"
+	echo
+	echo "Ensure the MudPRO/profile/default directory exists,"
+	echo "you have the proper permissions, and that this script"
+	echo "is being run from the MudPRO directory"
+	exit
+fi
+
+if [ ! -d "$1" ]; then
+	echo "ERROR: The path you specified appears to be invalid."
+	echo
+	echo "This could be because you are not actually in the MudPRO"
+	echo "directory, or that the path you provided is incorrect."
+	echo "Does the path match exactly? Remember *nix is case sensitive."
+	echo
+	echo "Please check these things and try again."
+	exit
+fi
+
+cp -f profile/default/monsters.db $1
+cp -f profile/default/parse/character.db $1/parse
+cp -f profile/default/parse/combat.db $1/parse
+cp -f profile/default/parse/command.db $1/parse
+cp -f profile/default/parse/item.db $1/parse
+cp -f profile/default/parse/misc.db $1/parse
+cp -f profile/default/parse/movement.db $1/parse
+cp -f profile/default/parse/player.db $1/parse
+cp -f profile/default/parse/secret.db $1/parse
+cp -f profile/default/parse/state.db $1/parse
+cp -f profile/default/parse/status.db $1/parse
+
+echo "Updated the following items:"
+echo
+echo " - Monster database"
+echo " - Parse databases"
+echo
+echo "The following items are not updated automatically, so you"
+echo "may want to update them manually if needed"
+echo
+echo " - Character profile"
+echo " - Item configuration"
+echo " - Spell configuration"
+echo " - Strategy configuration"

@@ -1,0 +1,76 @@
+# ITEM.DB
+#
+# This file contains the item control list. It is not necessary to have
+# every item in the game listed here. Only define the items you want to
+# interact with. When an option is omitted, the default will be used.
+#
+# SAMPLE: This would pick up and carry one darkwood ring. It will also
+#         automatically equip the ring as needed.
+#
+#   Item = "darkwood ring"
+#     Equip   = Finger
+#     Limit   = 1
+#     SetFlag = AutoGet
+#     SetFlag = AutoArm
+#
+
+## CASH #############################################################
+
+Item = "runic coin"
+  SetFlag = Currency
+  SetFlag = AutoGet
+  Value   = 1000000
+
+Item = "platinum piece"
+  SetFlag = Currency
+  SetFlag = AutoGet
+  Value   = 10000
+
+Item = "gold crown"
+  SetFlag = Currency
+  SetFlag = Stash
+  SetFlag = AutoGet
+  Limit   = 1000
+  Value   = 100
+
+Item = "silver noble"
+  SetFlag = Currency
+  SetFlag = Stash
+  SetFlag = AutoGet
+  Limit   = 1000
+  Value   = 10
+
+Item = "copper farthing"
+  SetFlag = Currency
+  SetFlag = Stash
+  SetFlag = AutoGet
+  Limit   = 1000
+  Value   = 1
+
+## ITEMS ############################################################
+
+## TIP: You can also set the value (in copper) of regular items such as
+## fine broadswords so that they are included within your income rate
+
+Item = "torch"
+  SetFlag = Usable
+  SetFlag = Light
+  SetFlag = AutoGet
+  Limit   = 3
+
+Item = "lantern"
+  SetFlag = Usable
+  SetFlag = Light
+  SetFlag = AutoGet
+  Limit   = 3
+
+Item = "black star key"
+  SetFlag = AutoGet
+  Limit   = 3
+
+## EQUIPMENT ########################################################
+
+## TIP: You can list the equipment in your inventory here and then set the
+## AutoGet and AutoArm flags on each. That way, you will automatically recover
+## your deathpile when returning to it. Be sure not to set AutoArm on two
+## items using the same equipment slot though, for obvious reasons ;)

@@ -1,0 +1,80 @@
+
+PLAYER / PARTY STUFF
+
+When finished parsing party status, sort follower list by HP (lowest to highest).
+Use this list during spellcasting to prioritize targets. Add spell option to restrict
+spells to self or party (both by default). Add target spell option as well.
+
+Should we make a second universal "party list" for both use as both leader and follower?
+When "The following people ..." is parsed, clear the list. Then as players are parsed
+add them to this list, sorted by health. Then use the party list for spellcasting
+purposes.
+
+How do we ensure list is complete?
+IDEA -> record time par last read -- wait a short period before calling the
+spellcasting routine
+
+
+
+On startup load player.db, once in the realm parse who list and add those
+not already in list. whenever the player.db is modified reread who list.
+as people enter, add to the db. as they leave, mark as offline.
+
+when you begin following someone set character.leader to their player record
+
+when followers join add to character.followers, when parsing par command mark
+followers as not present. when a follower is parsed, mark them as present. if
+anyone is not present wait for them, after a period of time cut them loose.
+
+when in a party, sort list of others by health. then call spellcasting for
+each player until a spell is or is not selected. that way the person with the
+lowest health will get the needed attention
+
+when player is first seen, check if they are set to auto-invite. If they are,
+and not already invited/joined then invite them. When the invitation message
+is parsed, add the player to list of followers and set appropriate flags. in
+client ai, when a player is invited request @join. when player begins following
+you, update flags.
+
+TODO ASAP
+
+2) figure out why automapper cannot reorient self while following
+
+
+
+a) when a player is seen, invite them.
+
+b) once invited, add them to list of followers. set wait flag.
+
+c) while invited but not joined, request player to join.
+
+d) once joined, remove wait flag.
+
+
+when message received, "you are not in party ..." reset all party data
+
+
+MAPVIEW MODE
+
+ +==[ Mapview ]====================================+ +==[ Vitals ]=============+
+ |                                                 | | Abaddon TheDarkKnight   |
+ |                   MAPVIEW AREA                  | |  HP: .................. |
+ |                                                 | |  MA: .................. |
+ |                                                 | +=========================+
+ |                                                 | +==[ Statistics ]=========+
+ |                                                 | | Exp Made:   618,300     |
+ |                                                 | | Exp Needed: 46,564      |
+ |                                                 | | Rate: 35.0 k/hr         |
+ |                                                 | | Will Level in: 1-2 ...  |
+ |                                                 | +=========================+
+ |                                                 | +==[ Also Here ]==========+
+ |                                                 | | Abaddon TheDarkKnight   |
+ |                                                 | | Khamsin PhoenixFlame    |
+ +==[ Conversations ]==============================+ | Gotik TheDarkOne        |
+ | Abaddon Gossips:                                | |  ---------------------  |
+ |                                                 | | Skeletal Warrior ( 40%) |
+ |                                                 | | Moaning Spirit   (100%) |
+ |                                                 | |                         |
+ +=================================================+ |                         |
+ | > gos hmm _                                     | |                         |
+ +=================================================+ +=========================+

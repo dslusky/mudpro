@@ -1,0 +1,118 @@
+# ITEM.DB
+#
+# This file contains the item parse patterns and corresponding actions.
+# Many times, you will want to execute the same set of actions for different
+# patterns. For this reason, it is possible to group patterns together to
+# save space and (more importantly) effort :)
+#
+# TIP: while several tags have been defined to help simplify creating patterns,
+# the underlying parsing system uses the powerful PCRE regexp engine. You can
+# take advantage of this fact and use inline regexps anywhere within a pattern.
+
+"You deposit {*}"
+    Item:           InventoryDel = {*}
+    CommandDel:     Depositing
+
+"You withdrew {*}"
+    SetFlag:        InventoryRead = FALSE
+    CommandDel:     Withdrawing
+
+"You cannot DEPOSIT if you are not in a bank!"
+    CommandDel:     Depositing
+
+"Please specify a more reasonable amount."
+    Item:           Reset
+    CommandDel:     Depositing
+    CommandDel:     Withdrawing
+
+"You just bought {*} for {*}"
+    Item:           InventoryAdd = 1
+    Item:           InventoryDel = 2
+    CommandDel:     Buying
+
+"{*} is not a known item."
+    Item:           Reset
+    CommandDel:     Buying
+
+"You sold {*} for {*}"
+    Item:           InventoryAdd = 2
+    Item:           InventoryDel = 1
+    CommandDel:     Selling
+
+"You don't have {*} to sell!"
+    Item:           Reset
+    CommandDel:     Selling
+
+"You just paid {*} in toll charges."
+    Item:           InventoryDel = {*}
+
+"use {*} {direction}"
+    Automap:        KeyUsed     = {*}
+    Automap:        KeyRequired = {direction}
+
+"You took {*}."
+"You picked up {*}"
+    ResetState:     Resting
+    CommandDel:     PickingUp
+    Item:           InventoryAdd = {*}
+    Item:           VisibleDel   = {*}
+
+"You don't see {*} here."
+"You don't see {*}"
+    CommandDel:     PickingUp
+    Item:           VisibleDel   = {*}
+
+"You don't have {*} to drop!"
+    CommandDel:     Dropping
+    Item:           InventoryDel = {*}
+
+"You dropped {*}."
+    CommandDel:     Dropping
+    Item:           InventoryDel = {*}
+    Item:           VisibleAdd   = {*}
+
+"You hid {*}."
+    CommandDel:     Hiding
+    Item:           InventoryDel = {*}
+
+"You don't have {*} to hide!"
+    CommandDel:     Hiding
+    Item:           Reset
+
+"You cannot carry that much!"
+"Syntax: GET {*} {Currency}"
+    CommandDel:     PickingUp
+    Item:           Reset
+    Item:           AutoGet = FALSE
+
+"You do not have {*} left unequipped."
+    CommandDel:     Arming
+    Item:           Reset
+
+"You are now holding {*}."
+"You are now wearing {*}."
+    CommandDel:     Arming
+    Item:           Armed = {*}
+
+"You lit the {*}."
+    CommandDel:     Using
+    ResetState:     Resting
+    Item:           Armed       = {*}
+    Navigation:     RoomDark    = FALSE
+    Require:        AutomapLost = TRUE
+      CommandSend:  Target
+
+"You have removed {*} and extinguished it."
+    CommandDel:     Removing
+    Item:           Disarmed = {*}
+    ResetState:     Resting
+    CommandSend:    Target
+
+"You already have something lit!"
+    CommandDel:     Using
+    ResetState:     Resting
+    Item:           Reset
+
+"Your {*} flickers and goes out."
+    Item:           Disarmed     = {*}
+    Item:           InventoryDel = {*}
