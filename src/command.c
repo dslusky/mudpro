@@ -215,7 +215,7 @@ static void command_execute (gint type, gchar *str)
 	}
 
 	if (type == CMD_CAST)
-		g_timer_start (timers.castwait);
+		timer_start (timers.castwait);
 
 	if (type == CMD_MOVE)
 	{
@@ -337,8 +337,8 @@ void command_recall (void)
 	if (command_recalls > COMMAND_RECALL_LIMIT)
 	{
 		/* too many recalls in allowed time */
-		g_timer_stop (timers.recall);
-		g_timer_reset (timers.recall);
+		timer_stop (timers.recall);
+		timer_reset (timers.recall);
 
 		mudpro_reset_state (FALSE /* disconnected */);
 		automap_reset      (TRUE /* full reset */);
@@ -355,7 +355,7 @@ void command_recall (void)
 		command_send (CMD_TARGET);
 	}
 	else
-		g_timer_start (timers.recall);
+		timer_start (timers.recall);
 }
 
 

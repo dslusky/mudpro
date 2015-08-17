@@ -36,26 +36,31 @@
 #define TIMEOUT_USEC_REFRESH		25000
 
 #define CASTWAIT \
-	((int)g_timer_elapsed (timers.castwait, NULL) || \
-	((int)g_timer_elapsed (timers.round, NULL) > 2))
+	(timer_elapsed (timers.castwait, NULL) || \
+	(timer_elapsed (timers.round, NULL) > 2))
 
-typedef struct
-{
-	GTimer *dbupdate;    /* database polling */
-	GTimer *castwait;    /* casting throttle */
-	GTimer *client_ai;   /* client AI and automation */
-	GTimer *connect;     /* (re)connect throttle */
-	GTimer *duration;    /* exp gathering duration */
-	GTimer *player_anim; /* player animations */
-	GTimer *refresh;     /* screen refresh throttle */
-	GTimer *round;       /* round timer */
-	GTimer *status;      /* status update */
-	GTimer *idle;        /* idle timeout */
-	GTimer *mudpro;      /* overall client duration */
-	GTimer *online;      /* time spent online */
-	GTimer *osd_stats;   /* stats osd cycle */
-	GTimer *recall;      /* recall throttle */
-	GTimer *parcmd;      /* check party status */
+typedef struct {
+    gboolean running;
+    struct timeval start;
+    struct timeval stop;
+} _timer_t;
+
+typedef struct {
+	_timer_t *dbupdate;    /* database polling */
+	_timer_t *castwait;    /* casting throttle */
+	_timer_t *client_ai;   /* client AI and automation */
+	_timer_t *connect;     /* (re)connect throttle */
+	_timer_t *duration;    /* exp gathering duration */
+	_timer_t *player_anim; /* player animations */
+	_timer_t *refresh;     /* screen refresh throttle */
+	_timer_t *round;       /* round timer */
+	_timer_t *status;      /* status update */
+	_timer_t *idle;        /* idle timeout */
+	_timer_t *mudpro;      /* overall client duration */
+	_timer_t *online;      /* time spent online */
+	_timer_t *osd_stats;   /* stats osd cycle */
+	_timer_t *recall;      /* recall throttle */
+	_timer_t *parcmd;      /* check party status */
 } timers_t;
 
 extern gint connect_wait;
@@ -65,5 +70,12 @@ void timers_init (void);
 void timers_cleanup (void);
 void timers_report (FILE *fp);
 void timers_update (void);
+
+_timer_t *timer_new(void);
+void timer_destroy(_timer_t *timer);
+void timer_start(_timer_t *timer);
+void timer_stop(_timer_t *timer);
+gdouble timer_elapsed(_timer_t *timer, gulong *usec);
+void timer_reset(_timer_t *timer);
 
 #endif /* __TIMERS_H__ */

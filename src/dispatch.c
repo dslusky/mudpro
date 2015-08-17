@@ -428,7 +428,7 @@ static gboolean parse_action_character (parse_action_t *action, gchar *subject,
 	else if (!strcasecmp (action->arg, "Thievery"))
 		character.stat.thievery = atoi (pcre_substr);
 
-	else if (!strcasecmp (action->arg, "Trackign"))
+	else if (!strcasecmp (action->arg, "Tracking"))
 		character.stat.tracking = atoi (pcre_substr);
 
 	else if (!strcasecmp (action->arg, "Traps"))

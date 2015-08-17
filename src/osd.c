@@ -236,7 +236,7 @@ void osd_stats_update (void)
 	if (osd_stats_mode == OSD_STATS_NONE)
 		return;
 
-	if (!g_timer_elapsed (timers.osd_stats, NULL) && !OSD_LOCK_ENABLED)
+	if (!timer_elapsed (timers.osd_stats, NULL) && !OSD_LOCK_ENABLED)
 	{
 		/* automatically set stats display */
 
@@ -406,12 +406,12 @@ static void osd_stats_session_update (void)
 	wattrset (osd_stats.w, osd_stats.attr);
 
 	tmp = get_elapsed_as_g_string (
-		(gulong) g_timer_elapsed (timers.mudpro, NULL));
+		(gulong) timer_elapsed (timers.mudpro, NULL));
 	mvwprintw (osd_stats.w, 1, 2, "MudPRO:       %s", tmp->str);
 	g_string_free (tmp, TRUE);
 
 	tmp = get_elapsed_as_g_string (
-		(gulong) g_timer_elapsed (timers.online, NULL) + stats.online);
+		(gulong) timer_elapsed (timers.online, NULL) + stats.online);
 	mvwprintw (osd_stats.w, 2, 2, "Online:       %s", tmp->str);
 	g_string_free (tmp, TRUE);
 
@@ -481,14 +481,14 @@ void osd_stats_toggle_context (void)
 
 void osd_stats_set_mode (gint mode)
 {
-	if (g_timer_elapsed (timers.osd_stats, NULL) || osd_stats_mode == mode)
+	if (timer_elapsed (timers.osd_stats, NULL) || osd_stats_mode == mode)
 		return;
 
 	g_assert (mode >= OSD_STATS_EXP);
 	g_assert (mode <= OSD_STATS_SESSION);
 
 	osd_stats_mode = mode;
-	g_timer_start (timers.osd_stats);
+	timer_start (timers.osd_stats);
 }
 
 

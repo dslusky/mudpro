@@ -303,7 +303,7 @@ GString *get_obvious_exits_as_g_string (void)
 	}
 
 	buf = g_string_truncate (buf, MAX (0, buf->len - 1));
-	buf = g_string_up (buf);
+	buf = g_string_ascii_up (buf);
 
 	return buf;
 }

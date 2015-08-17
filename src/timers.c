@@ -18,6 +18,7 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/time.h>
 #include <string.h>
 
 #ifdef __linux__
@@ -59,45 +60,60 @@ static void timers_db_update (void);
 
 void timers_init (void)
 {
-	memset (&timers, 0, sizeof (timers_t));
-	connect_wait = 0;
+    memset (&timers, 0, sizeof (timers_t));
+    connect_wait = 0;
 
-	timers.dbupdate = g_timer_new ();
+    timers.dbupdate = timer_new ();
+    timer_reset (timers.dbupdate);
 
-	timers.castwait = g_timer_new ();
-	g_timer_stop (timers.castwait);
+    timers.castwait = timer_new ();
+    timer_stop (timers.castwait);
+    timer_reset (timers.castwait);
 
-	timers.client_ai = g_timer_new ();
+    timers.client_ai = timer_new ();
+    timer_reset (timers.client_ai);
 
-	timers.connect = g_timer_new ();
-	g_timer_stop (timers.connect);
+    timers.connect = timer_new ();
+    timer_stop (timers.connect);
+    timer_reset (timers.connect);
 
-	timers.duration = g_timer_new ();
+    timers.duration = timer_new ();
+    timer_reset (timers.duration);
 
-	timers.idle = g_timer_new ();
-	g_timer_stop (timers.idle);
+    timers.idle = timer_new ();
+    timer_stop (timers.idle);
+    timer_reset (timers.idle);
 
-	timers.player_anim = g_timer_new ();
-	g_timer_stop (timers.player_anim);
+    timers.player_anim = timer_new ();
+    timer_stop (timers.player_anim);
+    timer_reset (timers.player_anim);
 
-	timers.refresh = g_timer_new ();
+    timers.refresh = timer_new ();
+    timer_reset (timers.refresh);
 
-	timers.round = g_timer_new ();
+    timers.round = timer_new ();
+    timer_reset (timers.round);
 
-	timers.status = g_timer_new ();
+    timers.status = timer_new ();
+    timer_reset (timers.status);
 
-	timers.mudpro = g_timer_new ();
+    timers.mudpro = timer_new ();
+    timer_reset (timers.mudpro);
 
-	timers.online = g_timer_new ();
-	g_timer_stop (timers.online);
+    timers.online = timer_new ();
+    timer_stop (timers.online);
+    timer_reset (timers.online);
 
-	timers.osd_stats = g_timer_new ();
-	g_timer_stop (timers.osd_stats);
+    timers.osd_stats = timer_new ();
+    timer_stop (timers.osd_stats);
+    timer_reset (timers.osd_stats);
 
-	timers.recall = g_timer_new ();
-	g_timer_stop (timers.recall);
+    timers.recall = timer_new ();
+    timer_stop (timers.recall);
+    timer_reset (timers.recall);
 
-	timers.parcmd = g_timer_new ();
+    timers.parcmd = timer_new ();
+    timer_reset (timers.parcmd);
 }
 
 
@@ -109,21 +125,21 @@ void timers_init (void)
 
 void timers_cleanup (void)
 {
-	g_timer_destroy (timers.dbupdate);
-	g_timer_destroy (timers.castwait);
-	g_timer_destroy (timers.client_ai);
-	g_timer_destroy (timers.connect);
-	g_timer_destroy (timers.duration);
-	g_timer_destroy (timers.idle);
-	g_timer_destroy (timers.player_anim);
-	g_timer_destroy (timers.refresh);
-	g_timer_destroy (timers.round);
-	g_timer_destroy (timers.status);
-	g_timer_destroy (timers.mudpro);
-	g_timer_destroy (timers.online);
-	g_timer_destroy (timers.osd_stats);
-	g_timer_destroy (timers.recall);
-	g_timer_destroy (timers.parcmd);
+    timer_destroy (timers.dbupdate);
+    timer_destroy (timers.castwait);
+    timer_destroy (timers.client_ai);
+    timer_destroy (timers.connect);
+    timer_destroy (timers.duration);
+    timer_destroy (timers.idle);
+    timer_destroy (timers.player_anim);
+    timer_destroy (timers.refresh);
+    timer_destroy (timers.round);
+    timer_destroy (timers.status);
+    timer_destroy (timers.mudpro);
+    timer_destroy (timers.online);
+    timer_destroy (timers.osd_stats);
+    timer_destroy (timers.recall);
+    timer_destroy (timers.parcmd);
 }
 
 
@@ -135,58 +151,58 @@ void timers_cleanup (void)
 
 void timers_report (FILE *fp)
 {
-	gulong sec, usec;
+    gulong sec, usec;
 
-	fprintf (fp, "\nTIMERS MODULE\n"
-				 "=============\n\n");
+    fprintf (fp, "\nTIMERS MODULE\n"
+                 "=============\n\n");
 
-	fprintf (fp, "  Timer               sec/usec\n"
-				 "  ----------------------------\n");
+    fprintf (fp, "  Timer               sec/usec\n"
+                 "  ----------------------------\n");
 
-	sec = (gulong) g_timer_elapsed (timers.castwait, &usec);
-	fprintf (fp, "  Castwait .......... %ld/%ld\n", sec, usec);
+    sec = (gulong) timer_elapsed (timers.castwait, &usec);
+    fprintf (fp, "  Castwait .......... %ld/%ld\n", sec, usec);
 
-	sec = (gulong) g_timer_elapsed (timers.client_ai, &usec);
-	fprintf (fp, "  Client AI ......... %ld/%ld\n", sec, usec);
+    sec = (gulong) timer_elapsed (timers.client_ai, &usec);
+    fprintf (fp, "  Client AI ......... %ld/%ld\n", sec, usec);
 
-	sec = (gulong) g_timer_elapsed (timers.connect, &usec);
-	fprintf (fp, "  Connect ........... %ld/%ld\n", sec, usec);
+    sec = (gulong) timer_elapsed (timers.connect, &usec);
+    fprintf (fp, "  Connect ........... %ld/%ld\n", sec, usec);
 
-	sec = (gulong) g_timer_elapsed (timers.dbupdate, &usec);
-	fprintf (fp, "  Database Update ... %ld/%ld\n", sec, usec);
+    sec = (gulong) timer_elapsed (timers.dbupdate, &usec);
+    fprintf (fp, "  Database Update ... %ld/%ld\n", sec, usec);
 
-	sec = (gulong) g_timer_elapsed (timers.duration, &usec);
-	fprintf (fp, "  Duration .......... %ld/%ld\n", sec, usec);
+    sec = (gulong) timer_elapsed (timers.duration, &usec);
+    fprintf (fp, "  Duration .......... %ld/%ld\n", sec, usec);
 
-	sec = (gulong) g_timer_elapsed (timers.idle, &usec);
-	fprintf (fp, "  Idle .............. %ld/%ld\n", sec, usec);
+    sec = (gulong) timer_elapsed (timers.idle, &usec);
+    fprintf (fp, "  Idle .............. %ld/%ld\n", sec, usec);
 
-	sec = (gulong) g_timer_elapsed (timers.mudpro, &usec);
-	fprintf (fp, "  MudPRO ............ %ld/%ld\n", sec, usec);
+    sec = (gulong) timer_elapsed (timers.mudpro, &usec);
+    fprintf (fp, "  MudPRO ............ %ld/%ld\n", sec, usec);
 
-	sec = (gulong) g_timer_elapsed (timers.online, &usec);
-	fprintf (fp, "  Online ............ %ld/%ld\n", sec, usec);
+    sec = (gulong) timer_elapsed (timers.online, &usec);
+    fprintf (fp, "  Online ............ %ld/%ld\n", sec, usec);
 
-	sec = (gulong) g_timer_elapsed (timers.osd_stats, &usec);
-	fprintf (fp, "  OSD Stats ......... %ld/%ld\n", sec, usec);
+    sec = (gulong) timer_elapsed (timers.osd_stats, &usec);
+    fprintf (fp, "  OSD Stats ......... %ld/%ld\n", sec, usec);
 
-	sec = (gulong) g_timer_elapsed (timers.player_anim, &usec);
-	fprintf (fp, "  Player Animation .. %ld/%ld\n", sec, usec);
+    sec = (gulong) timer_elapsed (timers.player_anim, &usec);
+    fprintf (fp, "  Player Animation .. %ld/%ld\n", sec, usec);
 
-	sec = (gulong) g_timer_elapsed (timers.recall, &usec);
-	fprintf (fp, "  Recall ............ %ld/%ld\n", sec, usec);
+    sec = (gulong) timer_elapsed (timers.recall, &usec);
+    fprintf (fp, "  Recall ............ %ld/%ld\n", sec, usec);
 
-	sec = (gulong) g_timer_elapsed (timers.refresh, &usec);
-	fprintf (fp, "  Refresh ........... %ld/%ld\n", sec, usec);
+    sec = (gulong) timer_elapsed (timers.refresh, &usec);
+    fprintf (fp, "  Refresh ........... %ld/%ld\n", sec, usec);
 
-	sec = (gulong) g_timer_elapsed (timers.round, &usec);
-	fprintf (fp, "  Round ............. %ld/%ld\n", sec, usec);
+    sec = (gulong) timer_elapsed (timers.round, &usec);
+    fprintf (fp, "  Round ............. %ld/%ld\n", sec, usec);
 
-	sec = (gulong) g_timer_elapsed (timers.status, &usec);
-	fprintf (fp, "  Status ............ %ld/%ld\n", sec, usec);
+    sec = (gulong) timer_elapsed (timers.status, &usec);
+    fprintf (fp, "  Status ............ %ld/%ld\n", sec, usec);
 
-	sec = (gulong) g_timer_elapsed (timers.parcmd, &usec);
-	fprintf (fp, "  Party Command ..... %ld/%ld\n\n", sec, usec);
+    sec = (gulong) timer_elapsed (timers.parcmd, &usec);
+    fprintf (fp, "  Party Command ..... %ld/%ld\n\n", sec, usec);
 }
 
 
@@ -198,165 +214,164 @@ void timers_report (FILE *fp)
 
 void timers_update (void)
 {
-	int sec = 0;
-	gulong usec = 0;
+    gulong sec, usec;
 
-	/* update databases if needed */
-	sec = g_timer_elapsed (timers.dbupdate, &usec);
+    /* update databases if needed */
+    sec = (gulong) timer_elapsed (timers.dbupdate, &usec);
 
-	if (sec >= TIMEOUT_SEC_DBUPDATE)
-	{
-		timers_db_update ();
-		g_timer_start (timers.dbupdate);
-	}
+    if (sec >= TIMEOUT_SEC_DBUPDATE)
+    {
+        timers_db_update ();
+        timer_reset (timers.dbupdate);
+    }
 
-	/* casting wait timer */
-	sec = g_timer_elapsed (timers.castwait, &usec);
+    /* casting wait timer */
+    sec = (gulong) timer_elapsed (timers.castwait, &usec);
 
-	if (sec >= TIMEOUT_SEC_CASTWAIT)
-	{
-		g_timer_start (timers.castwait); //reset
-		g_timer_stop (timers.castwait);
-	}
+    if (sec >= TIMEOUT_SEC_CASTWAIT)
+    {
+        timer_stop (timers.castwait);
+        timer_reset (timers.castwait);
+    }
 
-	/* client AI */
-	sec = g_timer_elapsed (timers.client_ai, &usec);
+    /* client AI */
+    sec = (gulong) timer_elapsed (timers.client_ai, &usec);
 
-	if (sec > 0 || usec >= TIMEOUT_USEC_CLIENT_AI)
-	{
-		client_ai ();
-		g_timer_start (timers.client_ai); //reset
-	}
+    if (sec > 0 || usec >= TIMEOUT_USEC_CLIENT_AI)
+    {
+        client_ai ();
+        timer_reset (timers.client_ai);
+    }
 
-	/* connection timer */
-	sec = g_timer_elapsed (timers.connect, &usec);
+    /* connection timer */
+    sec = (gulong) timer_elapsed (timers.connect, &usec);
 
-	if ((sec >= connect_wait) && !sockIsAlive () && !character.flag.disconnected)
-	{
-		if (connect_wait)
-		{
-			gint y, x;
+    if ((sec >= connect_wait) && !sockIsAlive () && !character.flag.disconnected)
+    {
+        if (connect_wait)
+        {
+            gint y, x;
 
-			/* clear connection countdown */
-			getyx (terminal.w, y, x);
-			wmove (terminal.w, y, 0);
-			wclrtoeol (terminal.w);
-		}
+            /* clear connection countdown */
+            getyx (terminal.w, y, x);
+            wmove (terminal.w, y, 0);
+            wclrtoeol (terminal.w);
+        }
 
-		mudpro_connect ();
-	}
+        mudpro_connect ();
+    }
 
-	/* idle timer */
-	sec = g_timer_elapsed (timers.idle, &usec);
+    /* idle timer */
+    sec = (gulong) timer_elapsed (timers.idle, &usec);
 
-	if (sec >= TIMEOUT_SEC_IDLE)
-	{
-		if (character.flag.ready &&
-			character.option.auto_all &&
-			!USER_INPUT &&
-			((character.option.anti_idle && RESTING) || !character.option.anti_idle))
-		{
-			if (!character.option.anti_idle)
-				mudpro_reset_state (FALSE /* disconnected */);
+    if (sec >= TIMEOUT_SEC_IDLE)
+    {
+        if (character.flag.ready &&
+            character.option.auto_all &&
+            !USER_INPUT &&
+            ((character.option.anti_idle && RESTING) || !character.option.anti_idle))
+        {
+            if (!character.option.anti_idle)
+                mudpro_reset_state (FALSE /* disconnected */);
 
-			send_line ("");
-		}
-		g_timer_start (timers.idle); //reset
-	}
+            send_line ("");
+        }
+        timer_reset (timers.idle);
+    }
 
-	/* player animation */
-	sec = g_timer_elapsed (timers.player_anim, &usec);
+    /* player animation */
+    sec = (gulong) timer_elapsed (timers.player_anim, &usec);
 
-	if (sec > 0 || usec >= TIMEOUT_USEC_PLAYER_ANIM)
-	{
-		if (mapview_animate_player_frame ())
-		{
-			/* animation done, stop timer */
-			g_timer_start (timers.player_anim); //reset
-			g_timer_stop (timers.player_anim);
-		}
-	}
+    if (sec > 0 || usec >= TIMEOUT_USEC_PLAYER_ANIM)
+    {
+        if (mapview_animate_player_frame ())
+        {
+            /* animation done, stop timer */
+            timer_stop (timers.player_anim);
+            timer_reset (timers.player_anim);
+        }
+    }
 
-	/* screen refresh */
-	sec = g_timer_elapsed (timers.refresh, &usec);
+    /* screen refresh */
+    sec = (gulong) timer_elapsed (timers.refresh, &usec);
 
-	if (sec > 0 || usec >= TIMEOUT_USEC_REFRESH)
-	{
-		doupdate ();
-		g_timer_start (timers.refresh); //reset
-	}
+    if (sec > 0 || usec >= TIMEOUT_USEC_REFRESH)
+    {
+        doupdate ();
+        timer_reset (timers.refresh);
+    }
 
-	/* game rounds */
-	sec = g_timer_elapsed (timers.round, &usec);
+    /* game rounds */
+    sec = (gulong) timer_elapsed (timers.round, &usec);
 
-	if (sec >= TIMEOUT_SEC_ROUND && usec > 500000)
-	{
-		g_timer_start (timers.round); //reset
-	}
+    if (sec >= TIMEOUT_SEC_ROUND && usec > 500000)
+    {
+        timer_reset (timers.round);
+    }
 
-	/* misc status updates */
-	sec = g_timer_elapsed (timers.status, &usec);
+    /* misc status updates */
+    sec = (gulong) timer_elapsed (timers.status, &usec);
 
-	if (sec >= TIMEOUT_SEC_STATUS)
-	{
-		/* update pending party requests */
-		party_request_update ();
+    if (sec >= TIMEOUT_SEC_STATUS)
+    {
+        /* update pending party requests */
+        party_request_update ();
 
-		if (!sockIsAlive () && (connect_wait > 0))
-		{
-			gint y, x;
-			gchar *buf;
+        if (!sockIsAlive () && (connect_wait > 0))
+        {
+            gint y, x;
+            gchar *buf;
 
-			if (!(int)g_timer_elapsed (timers.connect, NULL))
-				g_timer_start (timers.connect);
+            if (!timer_elapsed (timers.connect, NULL))
+                timer_start (timers.connect);
 
-			/* display countdown until we reconnect */
-			getyx (terminal.w, y, x);
-			wmove (terminal.w, y, 0);
-			wclrtoeol (terminal.w);
-			wattrset (terminal.w, ATTR_NOTICE | A_BOLD);
+            /* display countdown until we reconnect */
+            getyx (terminal.w, y, x);
+            wmove (terminal.w, y, 0);
+            wclrtoeol (terminal.w);
+            wattrset (terminal.w, ATTR_NOTICE | A_BOLD);
 
-			buf = g_strdup_printf ("[Connecting in %d seconds]",
-				connect_wait - (gint) g_timer_elapsed (timers.connect, NULL));
+            buf = g_strdup_printf ("[Connecting in %d seconds]",
+                connect_wait - (gint) timer_elapsed (timers.connect, NULL));
 
-			waddstr (terminal.w, buf);
-			wattrset (terminal.w, terminal.attr);
-			g_free (buf);
-		}
+            waddstr (terminal.w, buf);
+            wattrset (terminal.w, terminal.attr);
+            g_free (buf);
+        }
 
-		if (osd_stats.visible)
-			osd_stats_update ();
+        if (osd_stats.visible)
+            osd_stats_update ();
 
-		g_timer_start (timers.status); //reset
-	}
+        timer_reset (timers.status);
+    }
 
-	sec = g_timer_elapsed (timers.osd_stats, &usec);
+    sec = (gulong) timer_elapsed (timers.osd_stats, &usec);
 
-	if (sec >= TIMEOUT_SEC_OSD_STATS)
-	{
-		g_timer_start (timers.osd_stats); //reset
-		g_timer_stop (timers.osd_stats);
-	}
+    if (sec >= TIMEOUT_SEC_OSD_STATS)
+    {
+        timer_stop (timers.osd_stats);
+        timer_reset (timers.osd_stats);
+    }
 
-	sec = g_timer_elapsed (timers.recall, &usec);
+    sec = (gulong) timer_elapsed (timers.recall, &usec);
 
-	if (sec >= TIMEOUT_SEC_RECALL)
-	{
-		g_timer_start (timers.recall); //reset
-		g_timer_stop (timers.recall);
-		command_recalls = 0;
-	}
+    if (sec >= TIMEOUT_SEC_RECALL)
+    {
+        timer_stop (timers.recall);
+        timer_reset (timers.recall);
+        command_recalls = 0;
+    }
 
-	sec = g_timer_elapsed (timers.parcmd, &usec);
+    sec = (gulong) timer_elapsed (timers.parcmd, &usec);
 
-	if (sec >= character.wait.parcmd)
-	{
-		g_timer_start (timers.parcmd); //reset
-		if (WITHIN_PARTY)
-			command_send (CMD_PARTY);
-	}
+    if (sec >= character.wait.parcmd)
+    {
+        timer_reset (timers.parcmd);
+        if (WITHIN_PARTY)
+            command_send (CMD_PARTY);
+    }
 
-	command_timers_update ();
+    command_timers_update ();
 }
 
 
@@ -368,68 +383,169 @@ void timers_update (void)
 
 static void timers_db_update (void)
 {
-	struct stat st;
+    struct stat st;
 
-	if (args.no_poll || !character.option.conf_poll)
-		return; /* do not poll config files */
+    if (args.no_poll || !character.option.conf_poll)
+        return; /* do not poll config files */
 
-	parse_db_update ();
+    parse_db_update ();
 
-	if (!stat (mudpro_db.automap.filename, &st)
-		&& st.st_mtime > mudpro_db.automap.access.tv_sec)
-	{
-		printt ("Automap database updated");
-		automap_reset (TRUE /* full reset */);
-		automap_db_load ();
-	}
+    if (!stat (mudpro_db.automap.filename, &st)
+        && st.st_mtime > mudpro_db.automap.access.tv_sec)
+    {
+        printt ("Automap database updated");
+        automap_reset (TRUE /* full reset */);
+        automap_db_load ();
+    }
 
-	if (!stat (mudpro_db.guidebook.filename, &st)
-		&& st.st_mtime > mudpro_db.guidebook.access.tv_sec)
-	{
-		printt ("GuideBook database updated");
-		guidebook_db_load ();
-	}
+    if (!stat (mudpro_db.guidebook.filename, &st)
+        && st.st_mtime > mudpro_db.guidebook.access.tv_sec)
+    {
+        printt ("GuideBook database updated");
+        guidebook_db_load ();
+    }
 
-	if (!stat (mudpro_db.items.filename, &st)
-		&& st.st_mtime > mudpro_db.items.access.tv_sec)
-	{
-		printt ("Item database updated");
-		item_db_load ();
-	}
+    if (!stat (mudpro_db.items.filename, &st)
+        && st.st_mtime > mudpro_db.items.access.tv_sec)
+    {
+        printt ("Item database updated");
+        item_db_load ();
+    }
 
-	if (!stat (mudpro_db.monsters.filename, &st)
-		&& st.st_mtime > mudpro_db.monsters.access.tv_sec)
-	{
-		printt ("Monster database updated");
-		monster_db_load ();
-	}
+    if (!stat (mudpro_db.monsters.filename, &st)
+        && st.st_mtime > mudpro_db.monsters.access.tv_sec)
+    {
+        printt ("Monster database updated");
+        monster_db_load ();
+    }
 
-	if (!stat (mudpro_db.profile.filename, &st)
-		&& st.st_mtime > mudpro_db.profile.access.tv_sec)
-	{
-		printt ("Character profile updated");
-		character_options_load ();
-	}
+    if (!stat (mudpro_db.profile.filename, &st)
+        && st.st_mtime > mudpro_db.profile.access.tv_sec)
+    {
+        printt ("Character profile updated");
+        character_options_load ();
+    }
 
-	if (!stat (mudpro_db.players.filename, &st)
-		&& st.st_mtime > mudpro_db.players.access.tv_sec)
-	{
-		printt ("Player database updated");
-		player_db_load ();
-		character.flag.scan_read = FALSE;
-	}
+    if (!stat (mudpro_db.players.filename, &st)
+        && st.st_mtime > mudpro_db.players.access.tv_sec)
+    {
+        printt ("Player database updated");
+        player_db_load ();
+        character.flag.scan_read = FALSE;
+    }
 
-	if (!stat (mudpro_db.spells.filename, &st)
-		&& st.st_mtime > mudpro_db.spells.access.tv_sec)
-	{
-		printt ("Spell database updated");
-		spell_db_load ();
-	}
+    if (!stat (mudpro_db.spells.filename, &st)
+        && st.st_mtime > mudpro_db.spells.access.tv_sec)
+    {
+        printt ("Spell database updated");
+        spell_db_load ();
+    }
 
-	if (!stat (mudpro_db.strategy.filename, &st)
-		&& st.st_mtime > mudpro_db.strategy.access.tv_sec)
-	{
-		printt ("Strategy database updated");
-		combat_strategy_list_load ();
-	}
+    if (!stat (mudpro_db.strategy.filename, &st)
+        && st.st_mtime > mudpro_db.strategy.access.tv_sec)
+    {
+        printt ("Strategy database updated");
+        combat_strategy_list_load ();
+    }
+}
+
+/* =========================================================================
+ = TIMER_NEW
+ =
+ = Allocate a new timer object
+ ======================================================================== */
+
+_timer_t *timer_new(void)
+{
+    _timer_t *timer = g_malloc0(sizeof(_timer_t));
+    timer_start(timer);
+    return timer;
+}
+
+
+/* =========================================================================
+ = TIMER_DESTROY
+ =
+ = Deallocate timer object
+ ======================================================================== */
+
+void timer_destroy(_timer_t *timer)
+{
+    g_assert (timer != NULL);
+    g_free(timer);
+}
+
+
+/* =========================================================================
+ = TIMER_START
+ =
+ = Start the timer
+ ======================================================================== */
+
+void timer_start(_timer_t *timer)
+{
+    g_assert (timer != NULL);
+    timer->running = true;
+    gettimeofday(&timer->start, NULL);
+    memset(&timer->stop, 0, sizeof(struct timeval));
+}
+
+
+/* =========================================================================
+ = TIMER_STOP
+ =
+ = Stop the timer
+ ======================================================================== */
+
+void timer_stop(_timer_t *timer)
+{
+    g_assert (timer != NULL);
+    timer->running = false;
+    gettimeofday(&timer->stop, NULL);
+}
+
+
+/* =========================================================================
+ = TIMER_ELAPSED
+ =
+ = Return elapsed running time of the timer
+ ======================================================================== */
+
+gdouble timer_elapsed(_timer_t *timer, gulong *usec)
+{
+    gulong _sec, _usec;
+    struct timeval now, *end;
+
+    g_assert (timer != NULL);
+
+    gettimeofday(&now, NULL);
+    end = (timer->running) ? &now : &timer->stop;
+    _sec = end->tv_sec - timer->start.tv_sec;
+
+    if (_sec > 0)
+        _usec = (1000000 - timer->start.tv_usec) + end->tv_usec;
+    else
+        _usec = end->tv_usec - timer->start.tv_usec;
+
+    if (usec != NULL) *usec = _usec;
+
+    return _sec + (_usec * 0.000001);
+}
+
+/* ========================================================================
+ = TIMER_RESET
+ =
+ = Reset the timer
+ ======================================================================= */
+
+void timer_reset(_timer_t *timer)
+{
+    g_assert (timer != NULL);
+
+    if (timer->running)
+        gettimeofday(&timer->start, NULL);
+    else
+        memset(&timer->start, 0, sizeof(struct timeval));
+
+    memset(&timer->stop, 0, sizeof(struct timeval));
 }

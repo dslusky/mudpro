@@ -173,7 +173,7 @@ monster_t *monster_lookup (const gchar *str, gchar **prefix)
 	gchar buf[STD_STRBUF];
 
 	snprintf (buf, sizeof (buf), "%s", str);
-	g_strdown (buf);
+	g_ascii_strdown(buf, -1);
 	str = buf;
 
 	if (!strncasecmp (str, "a ", 2))		str += 2;

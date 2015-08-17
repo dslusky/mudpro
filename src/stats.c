@@ -66,7 +66,7 @@ void stats_exp_update (void)
 	gdouble elapsed;
 	gint x;
 
-	elapsed = g_timer_elapsed (timers.duration, NULL);
+	elapsed = timer_elapsed (timers.duration, NULL);
 
 	/* calculate rate/eta */
 
@@ -114,7 +114,7 @@ void stats_exp_update (void)
 
 void stats_exp_reset (void)
 {
-	g_timer_reset (timers.duration);
+	timer_reset (timers.duration);
 	stats.exp.gained = 0;
 	stats.exp.kills = 0;
 }
@@ -218,8 +218,8 @@ void stats_session_update (void)
 
 void stats_session_reset (void)
 {
-	g_timer_reset (timers.mudpro);
-	g_timer_reset (timers.online);
+	timer_reset (timers.mudpro);
+	timer_reset (timers.online);
 	stats.online      = 0;
 	stats.connects    = 0;
 	stats.disconnects = 0;

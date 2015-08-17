@@ -221,9 +221,6 @@ static void player_deallocate (player_t *player)
 static void player_db_parse_option (player_t *player, const gchar *str)
 {
 	gchar *offset, *option, *arg;
-	glong value;
-
-	value = 0;
 
 	if (!player || !str)
 		return;

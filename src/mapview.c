@@ -523,7 +523,7 @@ void mapview_animate_player (guint reps)
 
 		/* execute animation */
 		player_anim_reps = reps;
-		g_timer_start (timers.player_anim);
+		timer_start (timers.player_anim);
 	}
 }
 
@@ -563,7 +563,7 @@ gboolean mapview_animate_player_frame (void)
 		break;
 	}
 	mvwaddch (mapview.w, MAPVIEW_Y (0), MAPVIEW_X (0), 'X');
-	g_timer_reset (timers.player_anim);
+	timer_reset (timers.player_anim);
 	update_display ();
 
 	return anim_done;

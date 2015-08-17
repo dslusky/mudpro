@@ -179,10 +179,10 @@ void combat_reset (void)
 
 void combat_sync (void)
 {
-	if (combat.sync && (g_timer_elapsed (timers.round, NULL) < 3))
+	if (combat.sync && (timer_elapsed (timers.round, NULL) < 3))
 		return;
 
-	g_timer_reset (timers.round);
+	timer_reset (timers.round);
 	combat.sync = TRUE;
 	combat.rounds++;
 }

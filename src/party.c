@@ -643,7 +643,7 @@ player_t *party_follower_search_flags (gulong flags)
 
 gboolean party_follower_verify (player_t *player)
 {
-	return (gboolean) g_slist_find (character.followers, player);
+	return g_slist_find (character.followers, player) == NULL;
 }
 
 

@@ -44,12 +44,12 @@ void sockClose(void)
 
 	stats.disconnects++;
 
-	g_timer_stop (timers.idle);
-	g_timer_reset (timers.idle);
+	timer_stop (timers.idle);
+	timer_reset (timers.idle);
 
-	stats.online += (gulong) g_timer_elapsed (timers.online, NULL);
-	g_timer_stop (timers.online);
-	g_timer_reset (timers.online);
+	stats.online += (gulong) timer_elapsed (timers.online, NULL);
+	timer_stop (timers.online);
+	timer_reset (timers.online);
 
 	mudpro_reset_state (TRUE /* disconnected */);
 }

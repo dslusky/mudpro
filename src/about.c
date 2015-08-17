@@ -118,7 +118,7 @@ void about_update (void)
 	mvwprintw (about.w, 7, 5, "Release: %s", RELEASE);
 
 	wattrset (about.w, CP (COLOR_WHITE, COLOR_RED) | A_BOLD);
-	mvwprintw (about.w, 9,  3, "Copyright (c) 2002, 2003, 2004 by David Slusky");
+	mvwprintw (about.w, 9,  3, "Copyright (c) 2002-2015 by David Slusky");
 
 	mvwprintw (about.w, 11, 3,
 		"This program is free software; you can redistribute it and/or");

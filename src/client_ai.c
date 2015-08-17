@@ -230,7 +230,7 @@ void client_ai (void)
 		if (strategy != combat.strategy.current)
 		{
 			if ((character.state == STATE_ENGAGED || combat.room)
-				&& g_timer_elapsed (timers.round, NULL) < 1)
+				&& timer_elapsed (timers.round, NULL) < 1)
 				return;
 
 			if (combat.strategy.current)

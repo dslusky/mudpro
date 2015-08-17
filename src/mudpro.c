@@ -462,10 +462,10 @@ void mudpro_connect (void)
 
 	if (!sockOpen (character.hostname, port))
 	{
-		g_timer_stop (timers.connect);
-		g_timer_reset (timers.connect);
-		g_timer_start (timers.idle);
-		g_timer_start (timers.online);
+		timer_stop (timers.connect);
+		timer_reset (timers.connect);
+		timer_start (timers.idle);
+		timer_start (timers.online);
 		connect_wait = 0;
 		character.flag.cleanup = FALSE;
 
@@ -478,7 +478,7 @@ void mudpro_connect (void)
 	}
 	else /* connection failed, activate timer */
 	{
-		g_timer_reset (timers.connect);
+		timer_reset (timers.connect);
 		connect_wait = character.wait.connect;
 	}
 
@@ -526,7 +526,7 @@ static void mudpro_startup_notice (void)
 	wprintw (terminal.w, "Release: %s\n", RELEASE);
 
 	wattrset (terminal.w, ATTR_WHITE);
-	wprintw (terminal.w, "  Copyright (c) 2002-2004 David Slusky\n\n");
+	wprintw (terminal.w, "  Copyright (c) 2002-2015 David Slusky\n\n");
 
 	wattrset (terminal.w, ATTR_YELLOW | A_BOLD);
 	wprintw (terminal.w, "  Press CTRL-C to connect ");
@@ -840,7 +840,7 @@ static void mudpro_io_loop (void)
 			/* got some input so reset idle timer, unless using anti-idle */
 			/* anti-idle uses idle timer to force CR every TIMEOUT_SEC_IDLE */
 			if (!character.option.anti_idle)
-				g_timer_reset (timers.idle);
+				timer_reset (timers.idle);
 		}
 
 		if (FD_ISSET (sock.fd, &wfds))

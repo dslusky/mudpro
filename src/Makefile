@@ -8,9 +8,11 @@
 # Debugging options
 CFLAGS=-g -ggdb -DDEBUG
 
-INCL = -I. -I./telnet -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include
+INCL = -I. -I./telnet -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include 
+#INCL = -I. -I./telnet -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include
 LIBS = -lpanel -lcurses -lglib-2.0 -lpcre -lpopt -lm
-CC = gcc -Wall -Wmissing-prototypes -Wimplicit -Werror $(INCL)
+#CC = gcc -Wall -Wmissing-prototypes -Wimplicit -Werror $(INCL)
+CC = gcc -Wall -Wno-unused-but-set-variable -Werror $(INCL)
 
 OBJS = telnet/sock.o telnet/sockbuf.o telnet/telopt.o \
 	about.o automap.o autoroam.o character.o client_ai.o combat.o command.o \

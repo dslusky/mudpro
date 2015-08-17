@@ -43,6 +43,7 @@
 #include "defs.h"
 #include "widgets.h"
 
+
 gchar *substr (const gchar *pos1, const gchar *pos2);
 void strchomp (gchar *str);
 gint convert_health (gint percent);
