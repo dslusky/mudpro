@@ -133,7 +133,7 @@ void terminal_charset_init (void)
 
 	switch (character.line_style)
 	{
-	case 0: /* default line style */
+	case 0: /* default line style (single stroke) */
 	case 1:
 
 		window_ui.gauge  = 0xF0;
@@ -149,7 +149,7 @@ void terminal_charset_init (void)
 		memcpy (&widget_ui, &window_ui, sizeof (ui_charset_t));
 		break;
 
-	case 2: /* alternate line style */
+	case 2: /* alternate line style (double stroke) */
 
 		window_ui.gauge  = 0xF0;
 		window_ui.bullet = 0xFE;
@@ -179,7 +179,7 @@ void terminal_charset_init (void)
 		widget_ui.se     = 0xD9;
 		break;
 
-	case 3: /* ascii-only line style */
+	case 3: /* ascii-only line style #1 */
 
 		window_ui.gauge  = '=';
 		window_ui.bullet = '-';
@@ -194,7 +194,7 @@ void terminal_charset_init (void)
 		memcpy (&widget_ui, &window_ui, sizeof (ui_charset_t));
 		break;
 		
-	case 4: /* alternate ascii-only line style */
+	case 4: /* ascii-only line style #2 */
 	
 		window_ui.gauge  = '=';
 		window_ui.bullet = '-';
@@ -204,6 +204,21 @@ void terminal_charset_init (void)
 		window_ui.ne     = ' ';
 		window_ui.sw     = ' ';
 		window_ui.se     = ' ';
+
+		memcpy (&menu_ui,   &window_ui, sizeof (ui_charset_t));
+		memcpy (&widget_ui, &window_ui, sizeof (ui_charset_t));
+		break;
+
+	case 5: /* ascii-only line style #3 */
+	
+		window_ui.gauge  = '=';
+		window_ui.bullet = '-';
+		window_ui.vline  = '|';
+		window_ui.hline  = '-';
+		window_ui.nw     = '.';
+		window_ui.ne     = '.';
+		window_ui.sw     = '`';
+		window_ui.se     = '\'';
 
 		memcpy (&menu_ui,   &window_ui, sizeof (ui_charset_t));
 		memcpy (&widget_ui, &window_ui, sizeof (ui_charset_t));
@@ -471,7 +486,7 @@ void terminal_resize (void)
 /* =========================================================================
  = PRINTT
  =
- = Print message to the terminal
+ = Print highlighted status message to the terminal
  ======================================================================== */
 
 void printt (gchar *fmt, ...)
@@ -503,6 +518,42 @@ void printt (gchar *fmt, ...)
 	wprintw (terminal.w, "%s\n", message);
 	g_free (message);
 	wattrset (terminal.w, ATTR_NORMAL);
+
+	update_display ();
+}
+
+
+/* =========================================================================
+ = PRINTS
+ =
+ = Print string to the terminal with no additional formatting
+ ======================================================================== */
+
+void prints (gchar *fmt, ...)
+{
+	va_list argptr;
+	gchar buf[STD_STRBUF];
+	gint y, x;
+
+	if (!terminal.w)
+		return; /* terminal not initialized */
+
+	va_start (argptr, fmt);
+	vsnprintf (buf, sizeof (buf), fmt, argptr);
+	va_end (argptr);
+
+	mudpro_capture_log_append (buf);
+
+	if (notice_visible)
+		terminal_clear ();
+
+	getyx (terminal.w, y, x);
+	if (x != 0)
+		waddch (terminal.w, '\n');
+
+
+	wprintw (terminal.w, "%s\n", buf);
+//	wattrset (terminal.w, ATTR_NORMAL);
 
 	update_display ();
 }

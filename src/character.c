@@ -108,7 +108,7 @@ void character_init (void)
 		character.port = CLAMP (args.port, 1, 65535);
 
 	if (args.line_style)
-		character.line_style = CLAMP (args.line_style, 1, 4);
+		character.line_style = CLAMP (args.line_style, 1, 5);
 }
 
 
@@ -424,7 +424,7 @@ static void character_options_parse (gchar *option, gchar *arguments)
 	else if (!strcasecmp (option, "LineStyle"))
 	{
 		value = get_token_as_long (&arguments);
-		character.line_style = CLAMP (value, 1, 4);
+		character.line_style = CLAMP (value, 1, 5);
 		terminal_charset_init ();
 		/* FIXME: need way to verify ncurses is active and refresh */
 	}

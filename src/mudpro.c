@@ -877,7 +877,7 @@ gint main (gint argc, gchar *argv[])
 			&args.port, 0, "Remote port number" },
 
 		{ "line-style", 'l', POPT_ARG_INT,
-			&args.line_style, 0, "Line style to use (1-4)" },
+			&args.line_style, 0, "Line style to use (1-5)" },
 
 		{ "no-polling", 'n', POPT_ARG_NONE,
 			0, 'n', "Do not poll config files" },

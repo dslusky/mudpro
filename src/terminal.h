@@ -103,5 +103,6 @@ void terminal_put (gint ch);
 void terminal_sequence_read (gint ch);
 void terminal_resize (void);
 void printt (gchar *fmt, ...);
+void prints (gchar *fmt, ...);
 
 #endif /* __TERMINAL_H__ */
