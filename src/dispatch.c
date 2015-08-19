@@ -143,7 +143,7 @@ static gboolean parse_action_auditlog (parse_action_t *action, gchar *subject,
 {
     GET_PCRE_SUBSTR (action->value);
 
-    mudpro_audit_log_append(action->arg, pcre_substr);
+    mudpro_audit_log_append (action->arg, pcre_substr);
 
     return TRUE;
 }
@@ -968,6 +968,7 @@ static gboolean parse_action_navigation (parse_action_t *action, gchar *subject,
         if (navigation.collisions >= NAVIGATION_COLLISION_MAX)
         {
             printt ("Navigation halted");
+            mudpro_audit_log_append ("Navigation halted - too many collisions");
             navigation_cleanup ();
             navigation.collisions = 0;
             autoroam_opts.enabled = FALSE;

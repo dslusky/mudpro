@@ -28,6 +28,7 @@
 #include "command.h"
 #include "navigation.h"
 #include "monster.h"
+#include "mudpro.h"
 #include "terminal.h"
 #include "utils.h"
 
@@ -203,6 +204,7 @@ exit_info_t *navigation_autoroam (gint mode)
 	}
 
 	printt ("Navigation: autoroam failed");
+    mudpro_audit_log_append ("Navigation halted - autoroam failed");
 	autoroam_opts.enabled  = FALSE;
 	client_ai_movement_reset ();
 
@@ -278,6 +280,7 @@ exit_info_t *navigation_route_next (gint mode)
 	}
 
 	printt ("Navigation: no matching exit in route!");
+	mudpro_audit_log_append ("Navigation failed: no matching exit in route!");
 
 	if (navigation.route)
 		navigation_route_free ();
@@ -310,10 +313,14 @@ void navigation_create_route (void)
 	navigation_create_route_propagate (record, automap.location);
 
 	if (navigation.route)
+    {
 		printt ("Walking to %s", record->name);
+		mudpro_audit_log_append ("Walking to %s", record->name);
+    }
 	else
 	{
 		printt ("Route creation failed for %s!", record->name);
+		mudpro_audit_log_append ("Route creation failed for %s!", record->name);
 		navigation_anchor_del ();
 	}
 }
@@ -502,6 +509,7 @@ void navigation_route_step (void)
 		else
 		{
 			printt ("Destination reached");
+			mudpro_audit_log_append ("Destination reached");
 
 			if (character.option.restore_attack)
 				character.option.attack = TRUE;
@@ -585,7 +593,8 @@ void navigation_detour (void)
 
 	if (!destination || !destination->str || destination->str[0] == '\0')
 	{
-		printt ("No detour locations defined!\n");
+		printt ("No detour locations defined!");
+		mudpro_audit_log_append ("No detour locations defined!");
 		client_ai_movement_reset ();
 		return;
 	}
@@ -614,6 +623,7 @@ void navigation_detour (void)
 void navigation_reset_route (void)
 {
 	printt ("Navigation: Route Reset");
+	mudpro_audit_log_append ("Navigation route reset");
 	navigation_route_free ();
 	navigation_anchor_del ();
 }
@@ -628,6 +638,7 @@ void navigation_reset_route (void)
 void navigation_reset_all (void)
 {
 	printt ("Navigation: Full Reset");
+	mudpro_audit_log_append ("Navigation full reset");
 	navigation_cleanup ();
 }
 

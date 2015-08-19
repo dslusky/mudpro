@@ -755,6 +755,7 @@ void parse_line (gchar *line)
 
 	else if (!strncmp (line, "You notice", 10)
 		&& !strstr (line, "sneak in")
+		&& !strstr (line, "sneaking out")
 		&& !strstr (line, "nothing different to the"))
 	{
 		if ((!character.option.get_items && !character.option.get_cash)

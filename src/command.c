@@ -323,6 +323,8 @@ void command_recall (void)
 			monster_target_del ();
 
 		printt ("Command Recall: %s", command_types[command->type]);
+        mudpro_audit_log_append ("Command recalled: %s",
+            command_types[command->type]);
 
 		command_del (command->type);
 	}
@@ -351,6 +353,7 @@ void command_recall (void)
 		command_recalls = 0;
 
 		printt ("Recall limit exceeded");
+        mudpro_audit_log_append ("Recall limit exceeded - full reset");
 
 		command_send (CMD_TARGET);
 	}
@@ -405,6 +408,7 @@ void command_timers_update (void)
 			continue;
 
 		printt ("Command timed out: %s", command_types[command->type]);
+        mudpro_audit_log_append ("Command timed out: %s", command_types[command->type]);
 
 		if (!command_del (command->type))
 			continue;

@@ -76,6 +76,7 @@ void client_ai (void)
 			(character.ma.max && character.ma.now <= character.ma.sys)))
 		{
 			printt ("Vitals Critical (Teleporting)");
+            mudpro_audit_log_append ("Health critical - teleporting");
 
 			client_ai_movement_reset ();
 			navigation_route_free ();
@@ -90,7 +91,7 @@ void client_ai (void)
 		if (character.hp.now <= character.hp.min && character.option.hangup)
 		{
 			printt ("Health Critical (Disconnecting)");
-			mudpro_audit_log_append("Disconnecting (Health Critical)");
+			mudpro_audit_log_append ("Health critical - disconnecting");
 
 			character.flag.disconnected = TRUE;
 			sockClose ();
@@ -130,6 +131,7 @@ void client_ai (void)
 			&& character.option.run)
 		{
 			printt ("Health Critical (Running)");
+            mudpro_audit_log_append ("Health critical - running");
 
 			client_ai_movement_reset ();
 			character.flag.running = TRUE;
@@ -637,6 +639,7 @@ static void client_ai_exec_movement (void)
 			else
 			{
 				printt ("No light source available! (Movement Disabled)");
+                mudpro_audit_log_append ("Movement disabled - no light source available");
 				navigation_cleanup ();
 				autoroam_opts.enabled = FALSE;
 				return;
@@ -806,6 +809,7 @@ static void client_ai_open_door (void)
 		if (navigation.route)
 		{
 			printt ("Failed to bash door, route cancelled!");
+            mudpro_audit_log_append("Route cancelled - failed to bash door open");
 			navigation_cleanup ();
 		}
 

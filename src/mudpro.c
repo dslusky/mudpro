@@ -371,7 +371,7 @@ void mudpro_reset_state (gboolean disconnected)
 
 		terminal_set_title (TERMINAL_TITLE_DEFAULT);
 
-        mudpro_audit_log_append("Disconnected (Connection Closed)");
+        mudpro_audit_log_append("Disconnected (connection closed)");
 		printt ("Disconnected -- %s", now->str);
 		g_string_free (now, TRUE);
 
