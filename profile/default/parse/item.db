@@ -116,3 +116,6 @@
 "Your {*} flickers and goes out."
     Item:           Disarmed     = {*}
     Item:           InventoryDel = {*}
+
+"{cash} drop to the ground."
+    Item:           CashDrop = {cash}

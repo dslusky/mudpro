@@ -593,6 +593,43 @@ static gboolean parse_action_item (parse_action_t *action, gchar *subject,
             character.option.get_items ? "ON" : "OFF");
     }
 
+    else if (!strcasecmp (action->arg, "CashDrop"))
+    {
+        gchar *str = NULL;
+        GET_PCRE_SUBSTR (action->value);
+
+        if (strstr(pcre_substr, "copper") != NULL)
+        {
+            str = g_strdup_printf("%s farthing", pcre_substr);
+            visible_items = item_list_add (visible_items, str);
+            g_free(str);
+        }
+        else if (strstr(pcre_substr, "silver") != NULL)
+        {
+            str = g_strdup_printf("%s noble", pcre_substr);
+            visible_items = item_list_add (visible_items, str);
+            g_free(str);
+        }
+        else if (strstr(pcre_substr, "gold") != NULL)
+        {
+            str = g_strdup_printf("%s gold", pcre_substr);
+            visible_items = item_list_add (visible_items, str);
+            g_free(str);
+        }
+        else if (strstr(pcre_substr, "platinum") != NULL)
+        {
+            str = g_strdup_printf("%s noble", pcre_substr);
+            visible_items = item_list_add (visible_items, str);
+            g_free(str);
+        }
+        else if (strstr(pcre_substr, "runic") != NULL)
+        {
+            str = g_strdup_printf("%s noble", pcre_substr);
+            visible_items = item_list_add (visible_items, str);
+            g_free(str);
+        }
+    }
+
     else if (!strcasecmp (action->arg, "Disarmed"))
     {
         if (action->value)

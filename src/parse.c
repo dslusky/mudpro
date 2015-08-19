@@ -58,6 +58,7 @@ static parse_tag_t tag_list[] = {
 	{ "{their}",	"(his|her|its)" },
 	{ "{source}",	"(.+)" },
 	{ "{target}",	"(.+)" },
+	{ "{cash}",     "(\\d+ (copper|silver|gold|platinum|runic))" },
 	{ "{#}",		"(\\d+)" },
 	{ "{*}",		"(.*)" },
 	{ "{1}",		"(\\S+)" },
