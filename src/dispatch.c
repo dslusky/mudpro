@@ -50,6 +50,8 @@ player_t *selected_player = NULL;
 /* regexp substring buffer */
 static gchar pcre_substr[SUBSTR_SIZE];
 
+static gboolean parse_action_auditlog (parse_action_t *action, gchar *subject,
+    parse_regexp_t *parse_regexp, gint *ovector, gint strings);
 static gboolean parse_action_automap (parse_action_t *action, gchar *subject,
     parse_regexp_t *parse_regexp, gint *ovector, gint strings);
 static gboolean parse_action_character (parse_action_t *action, gchar *subject,
@@ -90,7 +92,10 @@ gboolean parse_action_dispatch (parse_action_t *action, gchar *subject,
 
     memset (&pcre_substr, 0, sizeof (pcre_substr));
 
-    if (!strcasecmp (action->type, "Automap") && action->arg)
+    if (!strcasecmp (action->type, "AuditLog") && action->arg)
+        return parse_action_auditlog (action, subject, parse_regexp, ovector, strings);
+
+    else if (!strcasecmp (action->type, "Automap") && action->arg)
         return parse_action_automap (action, subject, parse_regexp, ovector, strings);
 
     else if (!strcasecmp (action->type, "Character") && action->arg)
@@ -122,6 +127,23 @@ gboolean parse_action_dispatch (parse_action_t *action, gchar *subject,
 
     else
         return parse_action_misc (action, subject, parse_regexp, ovector, strings);
+
+    return TRUE;
+}
+
+
+/* =========================================================================
+ = PARSE_ACTION_AUDITLOG
+ =
+ = Execute auditlog parse action
+ ======================================================================== */
+
+static gboolean parse_action_auditlog (parse_action_t *action, gchar *subject,
+    parse_regexp_t *parse_regexp, gint *ovector, gint strings)
+{
+    GET_PCRE_SUBSTR (action->value);
+
+    mudpro_audit_log_append(action->arg, pcre_substr);
 
     return TRUE;
 }

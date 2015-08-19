@@ -311,6 +311,45 @@ void mudpro_capture_log_append (const gchar *str)
 
 
 /* =========================================================================
+ = MUDPRO_AUDIT_LOG_APPEND
+ =
+ = Append message to audit log
+ ======================================================================== */
+
+void mudpro_audit_log_append (gchar *fmt, ...)
+{
+	FILE *fp;
+	gchar *path;
+    va_list argptr;
+    gchar buf[STD_STRBUF];
+
+    va_start (argptr, fmt);
+    vsnprintf (buf, sizeof (buf), fmt, argptr);
+    va_end (argptr);
+
+	path = g_strdup_printf ("%s%caudit.log",
+		character.data_path, G_DIR_SEPARATOR);
+
+	if ((fp = fopen (path, "a")) != NULL)
+	{
+        struct tm *now;
+		time_t gmtime;
+		gchar str[STD_STRBUF];
+
+		time (&gmtime);
+		if ((now = localtime(&gmtime)) != NULL)
+		{
+            strftime(str, sizeof(str), "%F %T", now);
+            fprintf (fp, "%s - %s\n", str, buf);
+        }
+		fclose (fp);
+	}
+
+	g_free (path);
+}
+
+
+/* =========================================================================
  = MUDPRO_RESET_STATE
  =
  = Reset the client state
@@ -332,6 +371,7 @@ void mudpro_reset_state (gboolean disconnected)
 
 		terminal_set_title (TERMINAL_TITLE_DEFAULT);
 
+        mudpro_audit_log_append("Disconnected (Connection Closed)");
 		printt ("Disconnected -- %s", now->str);
 		g_string_free (now, TRUE);
 
@@ -469,6 +509,7 @@ void mudpro_connect (void)
 		connect_wait = 0;
 		character.flag.cleanup = FALSE;
 
+        mudpro_audit_log_append("Connected to %s", character.hostname);
 		terminal_set_title ("MudPRO [%s]", character.hostname);
 
 		/* initialize connection */

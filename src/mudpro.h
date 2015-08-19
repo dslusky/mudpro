@@ -53,6 +53,7 @@ extern gboolean notice_visible;
 void mudpro_create_report_log (void);
 void mudpro_capture_log_toggle (void);
 void mudpro_capture_log_append (const gchar *str);
+void mudpro_audit_log_append (gchar *fmt, ...);
 void mudpro_reset_state (gboolean disconnected);
 void mudpro_load_data (void);
 void mudpro_save_data (void);

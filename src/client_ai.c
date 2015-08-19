@@ -27,6 +27,7 @@
 #include "item.h"
 #include "mapview.h"
 #include "monster.h"
+#include "mudpro.h"
 #include "navigation.h"
 #include "osd.h"
 #include "party.h"
@@ -89,6 +90,7 @@ void client_ai (void)
 		if (character.hp.now <= character.hp.min && character.option.hangup)
 		{
 			printt ("Health Critical (Disconnecting)");
+			mudpro_audit_log_append("Disconnecting (Health Critical)");
 
 			character.flag.disconnected = TRUE;
 			sockClose ();
