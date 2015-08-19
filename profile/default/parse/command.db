@@ -46,6 +46,7 @@
       CommandRecall
 
 "You say .{*}."
+"You yell .{*}."
 "--- Message Directed to {player} ---"
     CommandDel:     Speaking
 

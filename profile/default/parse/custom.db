@@ -9,3 +9,9 @@
 # the underlying parsing system uses the powerful PCRE regexp engine. You can
 # take advantage of this fact and use inline regexps anywhere within a pattern.
 
+#"You critically {*} for {*} damage!"
+#    CommandSpeak:   "!Oh yeah! Bet that felt good!"
+#    CommandSpeak:   "!Oh! Thats gotta hurt!"
+
+#"You gain {#} experience."
+#    RandomTaunt
