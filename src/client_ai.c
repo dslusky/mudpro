@@ -92,6 +92,8 @@ void client_ai (void)
 		{
 			printt ("Health Critical (Disconnecting)");
 			mudpro_audit_log_append ("Health critical - disconnecting");
+			mudpro_audit_log_append ("status: offline account %s@%s reason: health critical",
+                character.first_name, character.hostname);
 
 			character.flag.disconnected = TRUE;
 			sockClose ();

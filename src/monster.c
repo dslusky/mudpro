@@ -336,8 +336,13 @@ void monster_target_add (monster_t *record, const gchar *prefix)
 	monster->hp     = record->hp;
 	monster->flags  = record->flags;
 
-	character.targets = g_slist_insert_sorted (character.targets, monster,
-		monster_target_list_prioritize);
+    if (1) {
+        character.targets = g_slist_append (character.targets, monster);
+    }
+    else {
+        character.targets = g_slist_insert_sorted (character.targets, monster,
+            monster_target_list_prioritize);
+	}
 
 	combat_monsters_update ();
 

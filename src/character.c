@@ -167,6 +167,9 @@ static void character_options_reset (void)
 	memset (&character.ma_p, 0, sizeof (character.ma_p));
 	memset (&character.option, 0, sizeof (character.option));
 
+    character.flag.health_read = FALSE;
+	character.flag.stats_read  = FALSE;
+
 	/* set default options */
 
 	character.port         = 23;

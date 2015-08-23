@@ -19,6 +19,7 @@
 "You feel strange for a moment."
 "You attempt to cast {*}, but fail."
 "You have already cast a spell this round!"
+"You do not have enough mana to cast that spell."
     ResetState:     Resting
     ResetState:     Meditating
     CommandDel:     Casting
