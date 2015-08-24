@@ -181,6 +181,7 @@ static void character_options_reset (void)
 	character.run_steps    = 3;
 	character.line_style   = 1;
 	character.light_mode   = LIGHT_RESERVE_HIGH;
+	character.target_mode  = TARGET_MODE_DEFAULT;
 	character.prefix       = '.';
 
 	character.attempts.bash_door = 10;
@@ -636,6 +637,35 @@ static void character_options_parse (gchar *option, gchar *arguments)
 		}
 	}
 
+	else if (!strcasecmp (option, "TargetMode"))
+	{
+        if ((tmp = get_token_as_str (&arguments)) != NULL)
+        {
+            if (!strcasecmp (tmp, "Default"))
+                character.target_mode = TARGET_MODE_DEFAULT;
+            else if (!strcasecmp (tmp, "Health"))
+                character.target_mode = TARGET_MODE_HEALTH;
+            else if (!strcasecmp (tmp, "LEVEL"))
+                character.target_mode = TARGET_MODE_EXP;
+            else if (!strcasecmp (tmp, "EXP"))
+                character.target_mode = TARGET_MODE_EXP;
+            else if (!strcasecmp (tmp, "FORWARD"))
+                character.target_mode = TARGET_MODE_FORWARD;
+            else if (!strcasecmp (tmp, "REVERSE"))
+                character.target_mode = TARGET_MODE_REVERSE;
+        }
+	}
+
+	else if (!strcasecmp (option, "Taunt"))
+	{
+		char *taunt = get_token_as_str (&arguments);
+
+		if (taunt)
+			character_taunts_add (taunt);
+
+		g_free (taunt);
+	}
+
 	else if (!strcasecmp (option, "Trigger"))
 	{
 		gchar *trigger, *response;
@@ -648,16 +678,6 @@ static void character_options_parse (gchar *option, gchar *arguments)
 
 		g_free (trigger);
 		g_free (response);
-	}
-
-	else if (!strcasecmp (option, "Taunt"))
-	{
-		char *taunt = get_token_as_str (&arguments);
-
-		if (taunt)
-			character_taunts_add (taunt);
-
-		g_free (taunt);
 	}
 
 	else if (!strcasecmp (option, "Username"))

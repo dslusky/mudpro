@@ -795,6 +795,11 @@ static void mudpro_key_dispatch (gint ch)
 	if (mudpro_key_handler (ch))
 		return;
 
+#if 0
+    // display key codes
+    printt("Keycode: %02X", ch);
+#endif
+
 	switch (ch) /* default key handler */
 	{
 	case KEY_BKSP: /* backspace */

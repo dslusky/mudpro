@@ -41,6 +41,16 @@ enum /* monster flags */
 	MONSTER_FLAG_AVOID  = 1 << 3, /* avoid monster if possible */
 };
 
+enum
+{
+    TARGET_MODE_DEFAULT = 1 << 0, /* use default selection method (health) */
+    TARGET_MODE_HEALTH  = 1 << 1, /* select targets by health */
+    TARGET_MODE_LEVEL   = 1 << 2, /* select targets by level */
+    TARGET_MODE_EXP     = 1 << 3, /* select targets by exp */
+    TARGET_MODE_FORWARD = 1 << 4, /* select targets as they appear in ascending order */
+    TARGET_MODE_REVERSE = 1 << 5, /* select targets as they appear in descending order */
+};
+
 void monster_db_init (void);
 void monster_db_cleanup (void);
 void monster_db_load (void);

@@ -67,6 +67,7 @@ typedef struct
 	gint run_steps;    /* steps to run when attempting to flee */
 	gint line_style;   /* character set to use */
 	gint light_mode;   /* light convservation mode */
+	gint target_mode;  /* target selection mode */
 	player_t *leader;  /* party leader */
 	GTimeVal rollcall; /* time of last rollcall */
 

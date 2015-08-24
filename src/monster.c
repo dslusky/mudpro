@@ -336,13 +336,25 @@ void monster_target_add (monster_t *record, const gchar *prefix)
 	monster->hp     = record->hp;
 	monster->flags  = record->flags;
 
-    if (1) {
-        character.targets = g_slist_append (character.targets, monster);
-    }
-    else {
+    switch (character.target_mode)
+    {
+    case TARGET_MODE_DEFAULT:
+    case TARGET_MODE_HEALTH:
+    case TARGET_MODE_LEVEL:
+    case TARGET_MODE_EXP:
+        /* TODO: implement LEVEL/EXP modes */
         character.targets = g_slist_insert_sorted (character.targets, monster,
             monster_target_list_prioritize);
-	}
+        break;
+    case TARGET_MODE_FORWARD:
+        character.targets = g_slist_append (character.targets, monster);
+        break;
+    case TARGET_MODE_REVERSE:
+        character.targets = g_slist_prepend (character.targets, monster);
+        break;
+    default:
+        g_assert_not_reached ();
+    }
 
 	combat_monsters_update ();
 
