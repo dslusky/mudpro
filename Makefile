@@ -1,11 +1,12 @@
 BUILD_DATE ?= $(shell date +'%Y%m%d')
+VERSION ?= $(BUILD_DATE)
+DESTDIR=mudpro-$(VERSION)
+DESTFILE=mudpro-$(VERSION).tar.gz
 
 build:
 	cd src; $(MAKE) $(MFLAGS)
 
 package:
-	DESTDIR=mudpro-$(VERSION)
-	DESTFILE=mudpro-$(VERSION).tar.gz
 	mkdir -p $(DESTDIR)
 	cp src/mudpro $(DESTDIR)
 	cp README COPYING CREDITS ChangeLog $(DESTDIR)
@@ -14,10 +15,8 @@ package:
 	rm -rf $(DESTDIR)
 
 release: build package
-	VERSION ?= $(BUILD_DATE)
 
 debug: build package
-	VERSION ?= $(shell git rev-parse --short HEAD)
 
 clean:
 	cd src; $(MAKE) clean
