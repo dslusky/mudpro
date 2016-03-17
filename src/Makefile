@@ -8,11 +8,8 @@
 # Debugging options
 CFLAGS=-g -ggdb -DDEBUG
 
-#INCL = -I. -I./telnet -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include 
-#INCL = -I. -I./telnet -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include
-INCL = -I. -I./telnet -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include 
-LIBS = -lpanel -lcurses -lglib-2.0 -lpcre -lpopt -lm
-#CC = gcc -Wall -Wmissing-prototypes -Wimplicit -Werror $(INCL)
+INCL = -I. -I./telnet `pkg-config --cflags glib-2.0`
+LIBS = -lpanel -lcurses -lpcre -lpopt -lm `pkg-config --libs glib-2.0`
 CC = gcc -Wall -Wno-unused-but-set-variable -Werror $(INCL)
 
 OBJS = telnet/sock.o telnet/sockbuf.o telnet/telopt.o \
