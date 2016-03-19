@@ -269,11 +269,9 @@ void timers_update (void)
         if (character.flag.ready &&
             character.option.auto_all &&
             !USER_INPUT &&
-            ((character.option.anti_idle && RESTING) || !character.option.anti_idle))
+            character.option.anti_idle)
         {
-            if (!character.option.anti_idle)
-                mudpro_reset_state (FALSE /* disconnected */);
-
+            mudpro_reset_state (FALSE /* disconnected */);
             send_line ("");
         }
         timer_reset (timers.idle);

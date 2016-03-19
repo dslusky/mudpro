@@ -191,6 +191,7 @@ static void character_options_reset (void)
 	character.option.conf_poll = TRUE;
 	character.option.attack    = TRUE;
 	character.option.auto_all  = TRUE;
+    character.option.anti_idle = TRUE;
 	character.option.recovery  = TRUE;
 	character.option.movement  = TRUE;
 	character.option.set_title = TRUE;

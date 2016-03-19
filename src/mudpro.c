@@ -882,11 +882,7 @@ static void mudpro_io_loop (void)
 			sockBufRead ();
 			sockReadLoop ();
 			update_display ();
-
-			/* got some input so reset idle timer, unless using anti-idle */
-			/* anti-idle uses idle timer to force CR every TIMEOUT_SEC_IDLE */
-			if (!character.option.anti_idle)
-				timer_reset (timers.idle);
+            timer_reset (timers.idle);
 		}
 
 		if (FD_ISSET (sock.fd, &wfds))
