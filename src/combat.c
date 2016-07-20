@@ -27,6 +27,7 @@
 #include "item.h"
 #include "monster.h"
 #include "mudpro.h"
+#include "navigation.h"
 #include "timers.h"
 #include "terminal.h"
 #include "utils.h"
@@ -350,6 +351,16 @@ static void combat_strategy_parse_options (strategy_t *strategy, gchar *str)
 		value = get_token_as_long (&offset);
 		strategy->min.monsters = MAX (0, value);
 	}
+	else if (!strcasecmp (option, "NPCNotPresent"))
+	{
+        value = get_token_as_long (&offset);
+        strategy->npc_not_present = CLAMP (value, 0, 1);
+	}
+	else if (!strcasecmp (option, "PCNotPresent"))
+	{
+        value = get_token_as_long (&offset);
+        strategy->pc_not_present = CLAMP (value, 0, 1);
+	}
 	else if (!strcasecmp (option, "ReqMana"))
 	{
 		value = get_token_as_long (&offset);
@@ -418,6 +429,12 @@ strategy_t *combat_strategy_get_next (void)
 		strategy = node->data;
 
 		/* attempt to disqualify strategy */
+
+        if (strategy->pc_not_present && navigation.pc_present)
+            continue; /* Player is present */
+
+		if (strategy->npc_not_present && navigation.npc_present)
+            continue; /* NPC is present */
 
 		if (strategy->target && strcasecmp (target->name, strategy->target))
 			continue; /* target defined, but doesn't match current target */

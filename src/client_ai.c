@@ -242,7 +242,7 @@ void client_ai (void)
 			if (combat.strategy.current)
 				combat.rounds = 0;
 
-			if (!character.state == STATE_ENGAGED)
+			if (character.state == STATE_ENGAGED)
 				osd_vitals_update ();
 
 			combat_strategy_execute (strategy);

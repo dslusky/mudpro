@@ -143,6 +143,8 @@ void navigation_report (FILE *fp)
 	fprintf (fp, "  Flags ........ %ld\n", navigation.flags);
 	fprintf (fp, "  Room Dark .... %s\n",
 		navigation.room_dark ? "YES" : "NO");
+	fprintf (fp, "  PC Present ... %s\n",
+        navigation.pc_present ? "YES" : "NO");
 	fprintf (fp, "  NPC Present .. %s\n\n",
 		navigation.npc_present ? "YES" : "NO");
 }

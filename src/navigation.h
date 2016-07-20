@@ -31,6 +31,7 @@ typedef struct
 	guint collisions;     /* number of failed movements */
 	gulong flags;	      /* room flags for _destination_ */
 	gboolean room_dark;   /* current room too dark to see */
+	gboolean pc_present;  /* Another player at location */
 	gboolean npc_present; /* NPC at location */
 } navigation_t;
 

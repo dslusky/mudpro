@@ -239,6 +239,8 @@ void monster_target_list_build (gchar *str)
 				!(player->party_flags & PARTY_FLAG_INVITED) &&
 				!(player->party_flags & PARTY_FLAG_JOINED))
 				command_send_va (CMD_INVITE, player->name);
+
+			navigation.pc_present = TRUE;
 		}
 		else
 			navigation.npc_present = TRUE;

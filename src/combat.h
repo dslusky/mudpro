@@ -33,6 +33,9 @@ typedef struct
 	gboolean smash; /* use smash when attacking (overrides bash) */
 	gboolean room;  /* strategy affects whole room */
 
+    gboolean pc_not_present;  /* no players are present */
+	gboolean npc_not_present; /* no NPCs are present */
+
 	struct /* strategy minimum requirements */
 	{
 		gint mon_hp;   /* monster HP */

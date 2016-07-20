@@ -767,6 +767,7 @@ void automap_parse_user_input (gchar *str)
 			/* OK, user has moved. assume these are false until confirmed */
 			character.flag.sneaking = FALSE;
 			character.flag.avoid    = FALSE;
+			navigation.pc_present   = FALSE;
 			navigation.npc_present  = FALSE;
 
 			item_visible_list_free ();
