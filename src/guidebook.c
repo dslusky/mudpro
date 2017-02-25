@@ -210,7 +210,7 @@ void guidebook_db_save (void)
 	{
 		record = node->data;
 		if (record->name && record->id)
-			fprintf (fp, "\"%s\", %s\n", record->name, record->id);
+			fprintf (fp, "\"%s\", \"%s\"\n", record->name, record->id);
 	}
 
 	fclose (fp);

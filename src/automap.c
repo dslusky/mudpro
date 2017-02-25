@@ -604,8 +604,8 @@ static void automap_record_save (gpointer key, gpointer value,
 	g_assert (record != NULL);
 	g_assert (fp != NULL);
 
-	fprintf (fp, "%ld, \"%s\", %ld, %ld, %ld, %ld, %ld, %ld\n",
-		atol (record->id),
+	fprintf (fp, "\"%s\", \"%s\", %ld, %ld, %ld, %ld, %ld, %ld\n",
+		record->id,
 		record->name,
 		record->exits,
 		record->flags,
@@ -617,7 +617,7 @@ static void automap_record_save (gpointer key, gpointer value,
 		exit_info = node->data;
 		FlagOFF (exit_info->flags, EXIT_FLAG_BLOCKED);
 
- 		fprintf (fp, "\t%ld, \"%s\", %ld, %ld\n", atol (exit_info->id),
+ 		fprintf (fp, "\t\"%s\", \"%s\", %ld, %ld\n", exit_info->id,
 			(exit_info->str) ? exit_info->str : "",
 			exit_info->direction, exit_info->flags);
 	}

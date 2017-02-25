@@ -36,25 +36,8 @@ navigation_t navigation;
 exit_info_t *destination;
 static exit_info_t exit_info_lost;
 
-#define NTABLE_EXITS 3
-#define NTABLE_SIZE  8
-static gint navigation_table[NTABLE_SIZE][NTABLE_EXITS]=
-{
-	{ EXIT_NORTHWEST, EXIT_NORTH, EXIT_WEST },
-	{ EXIT_NORTHEAST, EXIT_NORTH, EXIT_EAST },
-	{ EXIT_SOUTHWEST, EXIT_SOUTH, EXIT_WEST },
-	{ EXIT_SOUTHEAST, EXIT_SOUTH, EXIT_EAST },
-	{ EXIT_NORTH,     EXIT_NONE,  EXIT_NONE },
-	{ EXIT_SOUTH,     EXIT_NONE,  EXIT_NONE },
-	{ EXIT_EAST,      EXIT_NONE,  EXIT_NONE },
-	{ EXIT_WEST,      EXIT_NONE,  EXIT_NONE },
-};
-
-static gboolean navigation_create_route_propagate (automap_record_t *dest,
-	automap_record_t *location);
+static GNode *navigation_create_route_propagate (automap_record_t *anchor, GSList *rooms);
 static automap_record_t *navigation_create_route_propagate_verify (exit_info_t *exit_info);
-static gint navigation_create_route_shortest_path (gint exits,
-    automap_record_t *dest, automap_record_t *location);
 static void navigation_clear_route_flag (gpointer key, gpointer value, gpointer user_data);
 
 
@@ -299,12 +282,14 @@ exit_info_t *navigation_route_next (gint mode)
 
 void navigation_create_route (void)
 {
-	automap_record_t *record;
+	automap_record_t *anchor;
+	GSList *rooms = NULL;
+	GNode *dest, *root = NULL;
 
 	if (!navigation.anchors)
 		return; /* cannot create route without an anchor */
 
-	if ((record = automap_db_lookup ((gchar *) navigation.anchors->data)) == NULL)
+	if ((anchor = automap_db_lookup ((gchar *) navigation.anchors->data)) == NULL)
 		return; /* anchor is invalid */
 
 	if (navigation.route)
@@ -312,17 +297,27 @@ void navigation_create_route (void)
 
 	g_hash_table_foreach (automap.db, navigation_clear_route_flag, NULL);
 
-	navigation_create_route_propagate (record, automap.location);
+	automap.location->_route_flag = TRUE;
+	root = g_node_new (automap.location);
+	rooms = g_slist_prepend (rooms, root);
+
+	dest = navigation_create_route_propagate (anchor, rooms);
+
+	for (GNode *node = dest; node->parent; node = node->parent) {
+		navigation.route = g_slist_prepend (navigation.route, node->data);
+	}
+
+	g_node_destroy (root);
 
 	if (navigation.route)
     {
-		printt ("Walking to %s", record->name);
-		mudpro_audit_log_append ("Walking to %s", record->name);
+		printt ("Walking to %s", anchor->name);
+		mudpro_audit_log_append ("Walking to %s", anchor->name);
     }
 	else
 	{
-		printt ("Route creation failed for %s!", record->name);
-		mudpro_audit_log_append ("Route creation failed for %s!", record->name);
+		printt ("Route creation failed for %s!", anchor->name);
+		mudpro_audit_log_append ("Route creation failed for %s!", anchor->name);
 		navigation_anchor_del ();
 	}
 }
@@ -331,53 +326,43 @@ void navigation_create_route (void)
 /* =========================================================================
  = NAVIGATION_CREATE_ROUTE_PROPAGATE
  =
- = Propagate through locations creating a path
+ = Propagate through locations and determine shortest path
  ======================================================================== */
 
-static gboolean navigation_create_route_propagate (automap_record_t *dest,
-	automap_record_t *location)
-{
-	GSList *node;
-	automap_record_t *record;
-	gint path;
+static GNode *navigation_create_route_propagate (automap_record_t *anchor, GSList *rooms) {
+	GSList *adjacent_rooms = NULL;
 
-	location->_route_flag = TRUE;
-
-	if (!strcmp (location->id, dest->id))
-		return TRUE;
-
-	/* try shortest path first */
-
-	path = navigation_create_route_shortest_path (location->exits, dest, location);
-
-	if (path > EXIT_NONE)
+	for (GSList *r = rooms; r; r = r->next)
 	{
-		record = navigation_create_route_propagate_verify (
-			automap_get_exit_info (location, path));
+		GNode *node = r->data;
+		automap_record_t *room = node->data;
 
-		if (record &&
-			navigation_create_route_propagate (dest, record))
-		{
-			navigation.route = g_slist_prepend (navigation.route, record);
-			return TRUE;
+		if (!strcmp (room->id, anchor->id)) {
+			return node; // found shortest path to destination
+		}
+
+		for (GSList *e = room->exit_list; e; e = e->next) {
+			exit_info_t *ei = e->data;
+			automap_record_t *adjacent;
+
+			if (ei->flags & EXIT_FLAG_EXITSTR) continue; // not supported yet
+
+			adjacent = navigation_create_route_propagate_verify (ei);
+
+			if (adjacent) {
+				adjacent->_route_flag = TRUE;
+				adjacent_rooms = g_slist_prepend (adjacent_rooms,
+					g_node_prepend_data (node, adjacent));
+			}
 		}
 	}
 
-	/* shortest path not possible, use any available exit */
+	g_slist_free(rooms);
 
-	for (node = location->exit_list; node; node = node->next)
-	{
-		record = navigation_create_route_propagate_verify (node->data);
+	if (adjacent_rooms)
+		return navigation_create_route_propagate (anchor, adjacent_rooms);
 
-		if (record &&
-			navigation_create_route_propagate (dest, record))
-		{
-			navigation.route = g_slist_prepend (navigation.route, record);
-			return TRUE;
-		}
-	}
-
-	return FALSE;
+	return NULL;
 }
 
 
@@ -402,64 +387,6 @@ static automap_record_t *navigation_create_route_propagate_verify (
 		return NULL;
 
 	return record; /* location is ok */
-}
-
-
-/* =========================================================================
- = NAVIGATION_CREATE_ROUTE_SHORTEST_PATH
- =
- = Determine exit providing the shortest path between two locations
- ======================================================================== */
-
-static gint navigation_create_route_shortest_path (gint exits,
-	automap_record_t *dest, automap_record_t *location)
-{
-	gint i;
-
-	/* the method used here is very simple, perhaps too simple :) At each */
-	/* location, the exit that most closely matches the overall direction */
-	/* we are heading is selected. Too often this winds up generating a */
-	/* path that is suboptimal */
-
-	/* determine navigation table index */
-	if      (dest->x < location->x && dest->y > location->y) i = 0;
-	else if (dest->x > location->x && dest->y > location->y) i = 1;
-	else if (dest->x < location->x && dest->y < location->y) i = 2;
-	else if (dest->x > location->x && dest->y < location->y) i = 3;
-	else if (dest->y > location->y) i = 4;
-	else if (dest->y < location->y) i = 5;
-	else if (dest->x > location->x) i = 6;
-	else if (dest->x < location->x) i = 7;
-	else return EXIT_NONE;
-
-#if 1
-	if (exits & navigation_table[i][0])
-		return navigation_table[i][0];
-
-	if ((exits & navigation_table[i][1]) &&
-		(exits & navigation_table[i][2]))
-	{
-		if (abs (dest->x - location->x) >= abs (dest->y - location->y))
-			return navigation_table[i][1];
-		else
-			return navigation_table[i][2];
-	}
-
-	if (exits & navigation_table[i][1])
-		return navigation_table[i][1];
-
-	if (exits & navigation_table[i][2])
-		return navigation_table[i][2];
-#else
-{
-	gint pref;
-	for (pref = 0; pref < NTABLE_EXITS; pref++)
-		if (exits & navigation_table[i][pref])
-			return navigation_table[i][pref];
-}
-#endif
-
-	return EXIT_NONE;
 }
 
 
@@ -600,7 +527,7 @@ void navigation_detour (void)
 		client_ai_movement_reset ();
 		return;
 	}
-	
+
 	/* place detour location(s) in anchor queue */
 
 	offset = destination->str;
