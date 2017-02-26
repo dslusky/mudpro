@@ -486,6 +486,7 @@ static void automap_parse_exit_info (automap_record_t *record, gchar *str)
 	offset = str;
 	exit_info->id        = get_token_as_str (&offset);
 	exit_info->str       = get_token_as_str (&offset);
+	exit_info->required  = get_token_as_str (&offset);
 	exit_info->direction = get_token_as_long (&offset);
 	exit_info->flags     = get_token_as_long (&offset);
 
@@ -604,7 +605,7 @@ static void automap_record_save (gpointer key, gpointer value,
 	g_assert (record != NULL);
 	g_assert (fp != NULL);
 
-	fprintf (fp, "\"%s\", \"%s\", %ld, %ld, %ld, %ld, %ld, %ld\n",
+	fprintf (fp, "%s, \"%s\", %ld, %ld, %ld, %ld, %ld, %ld\n",
 		record->id,
 		record->name,
 		record->exits,
@@ -617,8 +618,9 @@ static void automap_record_save (gpointer key, gpointer value,
 		exit_info = node->data;
 		FlagOFF (exit_info->flags, EXIT_FLAG_BLOCKED);
 
- 		fprintf (fp, "\t\"%s\", \"%s\", %ld, %ld\n", exit_info->id,
+ 		fprintf (fp, "\t%s, \"%s\", \"%s\", %ld, %ld\n", exit_info->id,
 			(exit_info->str) ? exit_info->str : "",
+			(exit_info->required) ? exit_info->required : "",
 			exit_info->direction, exit_info->flags);
 	}
 	fprintf (fp, "\n");
@@ -680,6 +682,7 @@ static void automap_record_deallocate (gpointer key, gpointer value,
 		exit_info = node->data;
 		g_free (exit_info->id);
 		g_free (exit_info->str);
+		g_free (exit_info->required);
 		g_free (exit_info);
 	}
 	g_slist_free (record->exit_list);
@@ -917,6 +920,7 @@ exit_info_t *automap_add_exit_info (automap_record_t *record, gint direction)
 
 	exit_info->id        = g_strdup ("0");
 	exit_info->str       = NULL;
+	exit_info->required  = NULL;
 	exit_info->direction = direction;
 
     if (VISIBLE_EXITS & direction)

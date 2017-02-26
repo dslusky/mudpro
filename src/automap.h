@@ -78,7 +78,8 @@ typedef struct	/* automapper data */
 typedef struct
 {
 	gchar *id;			/* exit room ID */
-	gchar *str;			/* special string */
+	gchar *str;			/* special action string */
+	gchar *required;    /* require key/item */
 	gulong direction;	/* direction of exit */
 	gulong flags;		/* exit flags */
 } exit_info_t;
@@ -130,16 +131,18 @@ enum /* room flags */
 
 enum /* exit flags */
 {
-	EXIT_FLAG_EXITSTR	= 1 << 0, /* use custom exit string */
-	EXIT_FLAG_DOOR		= 1 << 1, /* exit has a door */
-	EXIT_FLAG_SECRET	= 1 << 2, /* hidden exit, search to uncover */
-	EXIT_FLAG_ONEWAY	= 1 << 3, /* exit is one-way */
-	EXIT_FLAG_KEYREQ	= 1 << 4, /* key required (stored in str) */
-	EXIT_FLAG_COMMAND	= 1 << 5, /* invoke special command before exiting */
-	EXIT_FLAG_TRAP		= 1 << 6, /* exit has a trap */
-	EXIT_FLAG_DETOUR	= 1 << 7, /* detour required to pass exit */
-	EXIT_FLAG_BLOCKED   = 1 << 8, /* exit has been temporarily blocked */
-	EXIT_FLAG_ROOMCLEAR = 1 << 9, /* room must be clear of any monsters */
+	EXIT_FLAG_EXITSTR	= 1 << 0,  /* use custom exit string */
+	EXIT_FLAG_DOOR		= 1 << 1,  /* exit has a door */
+	EXIT_FLAG_SECRET	= 1 << 2,  /* hidden exit, search to uncover */
+	EXIT_FLAG_ONEWAY	= 1 << 3,  /* exit is one-way */
+	EXIT_FLAG_KEYREQ	= 1 << 4,  /* key required */
+	EXIT_FLAG_ITEMREQ   = 1 << 5,  /* item required */
+	EXIT_FLAG_COMMAND	= 1 << 6,  /* invoke special command before exiting */
+	EXIT_FLAG_TRAP		= 1 << 7,  /* exit has a trap */
+	EXIT_FLAG_DETOUR	= 1 << 8,  /* detour required to pass exit */
+	EXIT_FLAG_BLOCKED   = 1 << 9,  /* exit has been temporarily blocked */
+	EXIT_FLAG_ROOMCLEAR = 1 << 10, /* room must be clear of any monsters */
+	EXIT_FLAG_TOLL      = 1 << 11  /* required toll to pass (in gold) */
 };
 
 extern automap_t automap;

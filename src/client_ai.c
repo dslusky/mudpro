@@ -488,7 +488,7 @@ gboolean client_ai_party_request (void)
 	else
 	{
 		party_follower_manage ();
-		
+
 		if (character.commands)
 			return TRUE;
 	}
@@ -618,6 +618,8 @@ static void client_ai_exec_movement (void)
 	/* exit has a special exit command */
 	if (exit_flags & EXIT_FLAG_COMMAND)
 	{
+		// FIXME: need to handle multiple commands
+		// FIXME: handle required item
 		send_line (destination->str);
 		FlagOFF (exit_flags, EXIT_FLAG_COMMAND);
 		return;
@@ -654,7 +656,7 @@ static void client_ai_exec_movement (void)
 	}
 
 	character.flag.searching = FALSE;
-	
+
 	/* TODO: handle detouring for hidden non-searchable exits */
 
 	/* activate light source if conservation mode allows it */

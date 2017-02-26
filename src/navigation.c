@@ -345,8 +345,6 @@ static GNode *navigation_create_route_propagate (automap_record_t *anchor, GSLis
 			exit_info_t *ei = e->data;
 			automap_record_t *adjacent;
 
-			if (ei->flags & EXIT_FLAG_EXITSTR) continue; // not supported yet
-
 			adjacent = navigation_create_route_propagate_verify (ei);
 
 			if (adjacent) {
