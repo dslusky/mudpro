@@ -755,17 +755,17 @@ static void client_ai_open_door (void)
 	if ((exit_flags & EXIT_FLAG_KEYREQ) &&
 		!DOOR_UNLOCKED (destination->direction))
 	{
-		item_t *item = item_list_lookup (character.inventory, destination->str);
+		item_t *item = item_list_lookup (character.inventory, destination->required);
 
 		if (item)
 		{
-			command_send_va (CMD_USE, "%s %s", destination->str,
+			command_send_va (CMD_USE, "%s %s", destination->required,
 				MOVEMENT_STR (destination->direction));
 		}
 		else
 		{
-			if (destination->str)
-				printt ("Required key '%s' not in inventory!", destination->str);
+			if (destination->required)
+				printt ("Required key '%s' not in inventory!", destination->required);
 			else
 				printt ("Required key flag set, but key not specified!");
 

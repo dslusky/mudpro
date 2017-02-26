@@ -90,6 +90,7 @@ while (<CSV>) {
                     $exit_flags |= EXIT_FLAG_DOOR;
                 }
                 elsif ($special =~ /Key: (\d+)/) {
+                    $exit_flags |= EXIT_FLAG_DOOR;
                     $exit_flags |= EXIT_FLAG_KEYREQ;
                     $required = $items{$1} || 'undef';
                 }
