@@ -567,7 +567,7 @@ static void mudpro_startup_notice (void)
 	wprintw (terminal.w, "Release: %s\n", RELEASE);
 
 	wattrset (terminal.w, ATTR_WHITE);
-	wprintw (terminal.w, "  Copyright (c) 2002-2016 David Slusky\n\n");
+	wprintw (terminal.w, "  Copyright (c) 2002-2017 David Slusky\n\n");
 
 	wattrset (terminal.w, ATTR_YELLOW | A_BOLD);
 	wprintw (terminal.w, "  Press CTRL-C to connect ");

@@ -37,7 +37,7 @@ typedef struct /* db access tracking */
 	GTimeVal access;
 } db_t;
 
-#define RELEASE "0.92c (07-19-2016)"
+#define RELEASE "0.93a (10-13-2017)"
 
 #define STD_STRBUF 1024
 
