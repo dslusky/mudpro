@@ -1,5 +1,5 @@
 /*  MudPRO: An advanced client for the online game MajorMUD
- *  Copyright (C) 2002, 2003, 2004  David Slusky
+ *  Copyright (C) 2002-2018  David Slusky
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
