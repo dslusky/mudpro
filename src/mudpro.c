@@ -23,10 +23,7 @@
 #include <ctype.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-
-#ifdef __linux__
 #include <unistd.h>
-#endif
 
 #include <glib.h>
 #include <popt.h>
@@ -91,14 +88,6 @@ static gboolean mudpro_init (void)
 {
 	struct stat st;
 
-#ifdef _WIN32
-     WSADATA wsadata;
-
-     /* request Winsock 1.1 */
-     if (WSAStartup(0x0101, &wsadata) != ERROR_SUCCESS)
-          return FALSE;
-#endif
-
 	memset (&mudpro_db, 0, sizeof (mudpro_db_t));
 	memset (&autoroam_opts, 0, sizeof (autoroam_opts_t));
 	mudpro_db.profile.filename = args.profile;
@@ -128,17 +117,13 @@ static gboolean mudpro_init (void)
 		return FALSE;
 	}
 
-#ifdef __linux__
 	/* request ibm extended character set (must come before initscr) */
 	printf ("\033(U");
-#endif
 
 	/* initialize ncurses */
 	initscr ();
 	raw (); /* so we can catch CTRL-C, CTRL-Z, etc... */
-#ifdef __linux__
 	assume_default_colors (COLOR_WHITE, -1);
-#endif
 	start_color ();
 	terminal_palette_init ();
 	terminal_charset_init ();
@@ -186,9 +171,6 @@ static void mudpro_cleanup (void)
 {
 	/* cleanup socket stuff */
 	sockShutdown ();
-#ifdef _WIN32
-	WSACleanup ();
-#endif
 
 	/* cleanup client modules */
 	automap_cleanup ();
@@ -905,9 +887,7 @@ gint main (gint argc, gchar *argv[])
 	struct stat st;
 	struct poptOption option_table[]=
 	{
-#ifdef __linux__
 		POPT_AUTOHELP
-#endif
 
 		{ "connect",    'c', POPT_ARG_NONE,
 			0, 'c', "Connect to remote host on startup" },
@@ -956,9 +936,7 @@ gint main (gint argc, gchar *argv[])
 	else
 	{
 		fprintf (stderr, "\nYou must specify a character profile to load!\n\n");
-#ifdef __linux__
 		poptPrintHelp (ptc, stderr, 0);
-#endif
 		exit (1);
 	}
 

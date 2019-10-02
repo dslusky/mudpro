@@ -2,20 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
-#ifdef __linux__
 #include <unistd.h>
-#endif
-
-#ifdef _WIN32
-#include <winsock.h>
-#include <arpa/telnet.h>
-#elif __linux__
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
-#endif
 
 #include "character.h"
 #include "defs.h"

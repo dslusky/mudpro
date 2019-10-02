@@ -20,10 +20,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
-#ifdef __linux__
 #include <unistd.h>
-#endif
 
 #include "automap.h"
 #include "client_ai.h"

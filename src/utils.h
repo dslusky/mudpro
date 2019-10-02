@@ -21,25 +21,6 @@
 
 #include <glib.h>
 
-#ifdef _WIN32
-	#include <stdarg.h>
-	#define index strchr
-	#define rindex strrchr
-
-	#define S_ISREG(m) (((m) & S_IFMT) == S_IFREG)
-	#define S_ISDIR(m) (((m) & S_IFMT) == S_IFDIR)
-
-	#ifdef _MSC_VER
-		#define vsnprintf _vsnprintf
-		#define snprintf _snprintf
-		#define strcasecmp stricmp
-		#define strncasecmp strnicmp
-	#elif __BORLANDC__
-		#define strcasecmp strcmpi
-		#define strncasecmp strncmpi
-	#endif
-#endif
-
 #include "defs.h"
 #include "widgets.h"
 

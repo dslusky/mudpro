@@ -20,10 +20,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
-#ifdef __linux__
 #include <unistd.h>
-#endif
 
 #include "automap.h"
 #include "character.h"

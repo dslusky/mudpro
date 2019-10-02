@@ -1,13 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+
+#include <arpa/telnet.h>
+
 #define TELCMDS
 #define TELOPTS
-
-#ifdef _WIN32
-#include <winsock.h>
-#elif __linux__
-#include <arpa/telnet.h>
-#endif
 
 #include "sock.h"
 #include "sockbuf.h"

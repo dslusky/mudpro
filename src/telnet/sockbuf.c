@@ -1,11 +1,6 @@
 #include <stdio.h>
 #include <sys/types.h>
-
-#ifdef _WIN32
-#include <winsock.h>
-#elif __linux__
 #include <sys/socket.h>
-#endif
 
 #include "mudpro.h"
 #include "sock.h"

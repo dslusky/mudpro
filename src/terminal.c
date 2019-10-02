@@ -107,12 +107,8 @@ void terminal_palette_init (void)
 	{
 		for (bg = 0; bg <= 7; bg++)
 		{
-#ifdef __linux__
 			/* so we can have nice transparent background :)*/
 			init_pair (pair, fg, (bg == COLOR_BLACK) ? -1 : bg);
-#elif _WIN32
-			init_pair (pair, fg, bg);
-#endif
 			palette[fg][bg] = pair++;
 		}
 	}
@@ -193,9 +189,9 @@ void terminal_charset_init (void)
 		memcpy (&menu_ui,   &window_ui, sizeof (ui_charset_t));
 		memcpy (&widget_ui, &window_ui, sizeof (ui_charset_t));
 		break;
-		
+
 	case 4: /* ascii-only line style #2 */
-	
+
 		window_ui.gauge  = '=';
 		window_ui.bullet = '-';
 		window_ui.vline  = '|';
@@ -210,7 +206,7 @@ void terminal_charset_init (void)
 		break;
 
 	case 5: /* ascii-only line style #3 */
-	
+
 		window_ui.gauge  = '=';
 		window_ui.bullet = '-';
 		window_ui.vline  = '|';
@@ -248,7 +244,6 @@ void terminal_set_title (gchar *fmt, ...)
 	vsnprintf (buf, sizeof (buf), fmt, argptr);
 	va_end (argptr);
 
-#ifdef __linux__
 	/* exit curses momentarily */
 	endwin ();
 
@@ -257,9 +252,6 @@ void terminal_set_title (gchar *fmt, ...)
 
 	/* restore curses */
 	update_display ();
-#elif _WIN32
-	SetConsoleTitle(buf);
-#endif
 }
 
 
